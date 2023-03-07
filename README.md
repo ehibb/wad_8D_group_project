@@ -11,4 +11,6 @@
 4. Add model of Category & Page, Populate: python populate_script.py
 5. Add forms
 6. Add base.html and make other html files inherit from it
+7. Add user authentication function
+8. Add different login.css for login.html(Please add differect .css file for specific .html file to make it customized)
 ```
