@@ -3,21 +3,21 @@
 
 <html>
 	<head>
-        <title>
-			{% block title_block %}
-				Flash Card Master
-			{% endblock %}
-		</title>
-
-        {% block css %}{% endblock %}
+		<title>Login</title>
+    <link rel="stylesheet" href="{% static 'css/login.css' %}" type="text/css" >
 	</head>
+
 	<body>
-        <div>
-			{% block body_block %}
-			{% endblock %}
-		</div>
-		<br />
-		<div id="function">
+        <h1>Flash Card Master</h1>
+        <form id="login_form" method="post" action="{% url 'card:login' %}">
+        {% csrf_token %}
+        Username: <input type="text" name="username" value="" size="50" />
+        <br />
+        Password: <input type="password" name="password" value="" size="50" />
+        <br />
+        <input type="submit" value="submit" />
+    </form>
+        <div id="function">
 			<ul>
 				<li><a href="{% url 'card:add_category' %}">Add a New Category</a></li>
 				<li><a href="{% url 'card:about' %}">About</a></li>

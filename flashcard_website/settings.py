@@ -30,6 +30,15 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+LOGIN_URL = 'card:login'
+'''
+By entering a URL name here,
+Django will direct users to the right place, even if the URL for logging in is changed.
+Regardless of what you enter as the value of LOGIN_URL, providing a value here
+ensures that the login_required() decorator will redirect any user not logged in to
+the URL you specify
+'''
+
 
 # Application definition
 
