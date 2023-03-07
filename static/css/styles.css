@@ -5,8 +5,8 @@ html {
 img {
     width: 2.8%;
     height: auto;
-	position: relative;
-	float: left;
+    position: absolute;
+    top: 5px;
 }
 
 h1 {
@@ -14,77 +14,65 @@ h1 {
     top: 2%;
     left: 50%;
     transform: translate(-50%, -50%);
-    margin: 0px;
+    margin:0;
 }
 
 strong {
     position: absolute;
-    top: 2%;
+    top: 3%;
     left: 50%;
     transform: translate(-50%, -50%);
     margin-top: 20px;
 }
 
-hr {
-	top: 10%
-	clear: both;
-}
 
-
-.top {
-	height:80px;
-	border-bottom: solid black;
-}
-.middle{
-	position: relative;
-    margin-left: 30%;
-}
-.box{
-	position: relative;
-	padding: 20px;
-	margin: 20px;
+/*
+box1:Most Viewed Pages
+box2:Most Liked Categories
+ */
+#box1 {
+    padding: 20px;
     border: 2px solid black;
     width: 300px;
     height: 300px;
-	float: left;
-
-}
-.top {
-	height:80px;
-	border-bottom: solid black;
-}
-
-/*
-box1:Most Liked Categories
-box2:Most Viewed Pages
-
- */
-
-#float-left{
-	float:left;
-	margin: 10px 10px 10px 10px;
-}
-#box1 {
+    position: absolute;
+    margin-left: 25%;
+    margin-top: 6%;
 }
 
 #box2 {
+    padding: 20px;
+    border: 2px solid black;
+    width: 300px;
+    height: 300px;
+    position: absolute;
+    margin-left: 25%;
+    margin-top: 30%;
 }
 
 #box3{
-	clear: left;
+    padding: 20px;
+    border: 2px solid black;
+    width: 300px;
+    height: 300px;
+    position: absolute;
+    margin-left: 55%;
+    margin-top: 6%;
 }
 
 #box4{
-
+    padding: 20px;
+    border: 2px solid black;
+    width: 300px;
+    height: 300px;
+    position: absolute;
+    margin-left: 55%;
+    margin-top: 30%;
 }
 
-#box-center{ /* To place element in the "center" of the box */
-	position: absolute;
-	top: 45%;		
-}
+
 
 #function{ /* Add a new category, Index, About*/
-	clear: left;
-    position: relative;
+    position: absolute;
     top: 90%;
 }
