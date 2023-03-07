@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+{% load staticfiles %}
+
+<html>
+	<head>
+        <title>
+			{% block title_block %}
+				Flash Card Master
+			{% endblock %}
+		</title>
+
+        {% block css %}{% endblock %}
+	</head>
+	<body>
+        <div>
+			{% block body_block %}
+			{% endblock %}
+		</div>
+		<br />
+		<div id="function">
+			<ul>
+				<li><a href="{% url 'card:add_category' %}">Add a New Category</a></li>
+				<li><a href="{% url 'card:about' %}">About</a></li>
+				<li><a href="{% url 'card:index' %}">Index</a></li>
+			</ul>
+
+            <ul>
+                <li><a href="{% url 'card:restricted' %}">Restricted Page</a></li>
+                <li><a href="{% url 'card:logout' %}">Logout</a></li>
+                <li><a href="{% url 'card:register' %}">Sign Up</a></li>
+                <li><a href="{% url 'card:login' %}">Login</a></li>
+            </ul>
+		</div>
+	</body>
+</html>

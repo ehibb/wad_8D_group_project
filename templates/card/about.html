@@ -1,0 +1,24 @@
+{% extends 'card/base.html' %}
+{% load staticfiles %}
+
+{% block title_block %}
+    About Page
+{% endblock %}
+
+{% block css %}
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}" type="text/css" >
+{% endblock %}
+
+{% block body_block %}
+    <div class="top">
+		<h1>Flash Card</h1>
+        <strong>Here is the about page.</strong><br />
+		<img src="{{ MEDIA_URL }}flashcard.png" alt="Picture of a FlashCard" />
+    </div>
+{% endblock %}
+
+
+
+
+
+
