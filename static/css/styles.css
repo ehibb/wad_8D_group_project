@@ -3,7 +3,7 @@ html {
 }
 
 img {
-    width: 3%;
+    width: 2.8%;
     height: auto;
 	position: relative;
 	float: left;
@@ -19,7 +19,7 @@ h1 {
 
 strong {
     position: absolute;
-    top: 3%;
+    top: 2%;
     left: 50%;
     transform: translate(-50%, -50%);
     margin-top: 20px;
