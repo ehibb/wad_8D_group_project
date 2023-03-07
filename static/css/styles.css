@@ -19,7 +19,7 @@ h1 {
 
 strong {
     position: absolute;
-    top: 2%;
+    top: 4%;
     left: 50%;
     transform: translate(-50%, -50%);
     margin-top: 20px;
