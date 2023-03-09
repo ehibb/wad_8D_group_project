@@ -1,6 +1,6 @@
 # wad_8D_group_project
 
-## This project is for example and to be modified
+## Please develop card app in the dev branch, and merge it to the main branch after test passes
 
 
 1. This branch is created based on chapter3-8 of rango project, combined with css
