@@ -1,7 +1,6 @@
 from django.db import models
 from django.template.defaultfilters import slugify
 from django.contrib.auth.models import User
-from enum import Enum
 
 
 class Category(models.Model):
@@ -68,20 +67,23 @@ class FlashCardSet(models.Model):
     NAME_MAX_LENGTH = 50
     SUBJECT_MAX_LENGTH = 20
     
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
-    name = models.CharField(max_length=NAME_MAX_LENGTH)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    name = models.CharField(max_length=NAME_MAX_LENGTH, unique=True)
     number_of_questions=models.IntegerField(default=0)
     subject = models.CharField(max_length = SUBJECT_MAX_LENGTH, choices=SUBJECT_CHOICES, default='general')
     likes = models.IntegerField(default=0)
+    slug = models.SlugField(unique=True)
     
     def save(self, *args, **kwargs):
         self.slug = slugify(self.name)
-        super(Category, self).save(*args, **kwargs)
+        super(FlashCardSet, self).save(*args, **kwargs)        
     
     def __str__(self):
         return self.name
     
-    
+    class Meta:
+        verbose_name_plural = 'Flash Card Sets'
+ 
 """
 FLASHCARD MODEL: Contains information on a given flash card
 Fields:
@@ -100,5 +102,5 @@ class FlashCard(models.Model):
     
     def __str__(self):
         return self.question_text
-    
+
 
