@@ -5,7 +5,9 @@ os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'flashcard_website.settings')
 import django
 
 django.setup()
-from card.models import Category, Page
+from card.models import Category, Page, FlashCardSet, FlashCard
+from django.contrib.auth.models import User
+from django.contrib.auth import authenticate
 
 
 # Populate()对已创建的类别保持tab。
@@ -42,7 +44,51 @@ def populate():
     cats = {'Python': {'pages': python_pages, 'views': 128, 'likes': 64},
             'Django': {'pages': django_pages, 'views': 64, 'likes': 32},
             'Other Frameworks': {'pages': other_pages, 'views': 32, 'likes': 16}}
+            
+    #Create user, if not already created
+    #Flash card sets will be created with this user as the creator
+    
+    user = authenticate(username="FlashCardMan", password="jyRquc318X!w9ewnZf^")
+    if user is None:
+        user = User.objects.create_user(username="FlashCardMan", email ="flashcardman@gmail.com", password="jyRquc318X!w9ewnZf^")
+    user.save()
+    print(user)
+    #Creating flash card sets: one for math, english and physics
 
+    math_flash_cards = [
+        {'question_text':'5+5?','answer_text':'10'},
+        {'question_text':'12+9=?','answer_text':'21'},
+        {'question_text':'40+0=?','answer_text':'40'}
+    ]
+    
+    computing_flash_cards = [
+        {'question_text':'What does the function print("Hello World") do?','answer_text':'Prints "Hello World" to the screen'},
+        {'question_text':'What function may we use to find the length of an array?','answer_text':'len(array)'},
+        {'question_text':'What function could we call the find the maximum value in an array?','answer_text':'max(array)'}
+    ]
+    
+    physics_flash_cards = [
+        {'question_text':'State N1.','answer_text':'In an inertial frame every body continues in a state of rest of uniform motino unless acted on by a force.'},
+        {'question_text':'State N2.','answer_text':'In an inertial frame the force acting on a body is equal to its rate of change of momentum.'},
+        {'question_text':'State N3','answer_text':'Action and reaction are equal and opposite forces.'}
+    ]
+    
+    flash_card_sets = {
+        'Basic Addition Questions':{'user': user,'subject':'math','likes':20, 'flash_cards': math_flash_cards},
+        'Python predefined functions':{'user': user,'subject':'math','likes':0, 'flash_cards': computing_flash_cards},
+        'Newtons Laws of Motion':{'user': user,'subject':'math','likes':2, 'flash_cards': physics_flash_cards}
+    }
+    
+    for flash_card_set, flash_card_set_data in flash_card_sets.items():
+        fcs = add_flash_card_set(user=user, name=flash_card_set, subject=flash_card_set_data['subject'])
+        for fc in flash_card_set_data['flash_cards']:
+            add_flash_card(fcs, fc['question_text'], fc['answer_text'])
+        
+    for fcs in FlashCardSet.objects.all():
+        for fc in FlashCard.objects.filter(flash_card_set = fcs):
+            print(f'- {fcs}: {fc}')
+     
+        
     # 如果你想添加更多的类别或页面，将它们添加到上面的字典中
 
     # 下面的代码遍历cats字典，然后添加每个类别，然后添加该类别的所有相关页面。
@@ -51,13 +97,25 @@ def populate():
         for p in cat_data['pages']:
             add_page(c, p['title'], p['url'], views=p['views'])
 
-            # Print out the categories we have added.
-        for c in Category.objects.all():
-            for p in Page.objects.filter(category=c):
-                print(f'- {c}: {p}')
+    # Print out the categories we have added.
+    for c in Category.objects.all():
+        for p in Page.objects.filter(category=c):
+            print(f'- {c}: {p}')
 
             # 创建新的page
 
+def add_flash_card_set(user, name, number_of_questions=0, subject='default',likes=0):
+    fcs = FlashCardSet.objects.get_or_create(user=user, name=name)[0]
+    fcs.number_of_questions = number_of_questions
+    fcs.subject = subject
+    fcs.likes = likes
+    fcs.save()
+    return fcs
+    
+def add_flash_card(fcs, question_text, answer_text):
+    fc = FlashCard.objects.get_or_create(flash_card_set = fcs, question_text=question_text,answer_text=answer_text)[0]
+    fc.save()
+    return fc
 
 def add_page(cat, title, url, views=0):
     p = Page.objects.get_or_create(category=cat, title=title)[0]
