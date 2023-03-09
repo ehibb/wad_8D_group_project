@@ -52,7 +52,6 @@ def populate():
     if user is None:
         user = User.objects.create_user(username="FlashCardMan", email ="flashcardman@gmail.com", password="jyRquc318X!w9ewnZf^")
     user.save()
-    print(user)
     #Creating flash card sets: one for math, english and physics
 
     math_flash_cards = [
