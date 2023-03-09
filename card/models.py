@@ -76,10 +76,13 @@ class FlashCardSet(models.Model):
     
     def save(self, *args, **kwargs):
         self.slug = slugify(self.name)
-        super(FlashCardSet, self).save(*args, **kwargs)        
+        self.number_of_questions = FlashCard.objects.filter(flash_card_set = self).count()
+        super(FlashCardSet, self).save(*args, **kwargs)       
+        
     
     def __str__(self):
         return self.name
+    
     
     class Meta:
         verbose_name_plural = 'Flash Card Sets'
@@ -102,5 +105,9 @@ class FlashCard(models.Model):
     
     def __str__(self):
         return self.question_text
+    
+    def save(self, *args, **kwargs):
+        self.flash_card_set.save()
+        super(FlashCard, self).save(*args, **kwargs)
 
 

@@ -103,9 +103,8 @@ def populate():
 
             # 创建新的page
 
-def add_flash_card_set(user, name, number_of_questions=0, subject='default',likes=0):
+def add_flash_card_set(user, name,subject='default',likes=0):
     fcs = FlashCardSet.objects.get_or_create(user=user, name=name)[0]
-    fcs.number_of_questions = number_of_questions
     fcs.subject = subject
     fcs.likes = likes
     fcs.save()
