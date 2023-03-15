@@ -1,5 +1,5 @@
 from django.contrib import admin
-from card.models import Category, Page, FlashCardSet, FlashCard
+from card.models import Category, Page, FlashCardSet, FlashCard, Comment
 from card.models import UserProfile
 
 
@@ -18,9 +18,12 @@ class FlashCardSetAdmin(admin.ModelAdmin):
 class FlashCardAdmin(admin.ModelAdmin):
     list_display = ('flash_card_set', 'question_text', 'answer_text')
 
+class CommentAdmin(admin.ModelAdmin):
+    list_display = ('flash_card_set', 'user', 'comment_text')
 
 admin.site.register(Category, CategoryAdmin)
 admin.site.register(Page, PageAdmin)
 admin.site.register(FlashCardSet, FlashCardSetAdmin)
 admin.site.register(FlashCard, FlashCardAdmin)
+admin.site.register(Comment, CommentAdmin)
 admin.site.register(UserProfile)

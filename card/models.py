@@ -109,3 +109,39 @@ class FlashCard(models.Model):
     def save(self, *args, **kwargs):
         self.flash_card_set.save()
         super(FlashCard, self).save(*args, **kwargs)
+
+
+"""
+Test Model: Contains test information regarding a user completing a test
+Fields:
+    user: The user completing the test
+    flash_card_set: The associated flash card set used in test
+    score: How many questions the user got correct
+"""
+
+class FlashCardTest(models.Model):
+    
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    flash_card_set = models.ForeignKey(FlashCardSet, on_delete=models.CASCADE)
+    score = models.IntegerField(default=0)
+    
+    def __str__(self):
+        return f"Test on {this.flash_card_set} by {this.user} achieving a score of {this.score}."
+        
+"""
+Comment Model: Contains a comment made by a user on a flash card set
+Fields:
+    user: The user making the comment
+    flash_card_set: The flash card set the comment is made on
+    comment_text: The textual contents of the comment
+"""
+
+class Comment(models.Model):
+    MAX_COMMENT_LENGTH = 1000
+    
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    flash_card_set = models.ForeignKey(FlashCardSet, on_delete=models.CASCADE)
+    comment_text = models.CharField(max_length=MAX_COMMENT_LENGTH)
+    
+    def __str__(self):
+        return self.comment_text

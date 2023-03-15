@@ -5,7 +5,7 @@ os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'flashcard_website.settings')
 import django
 
 django.setup()
-from card.models import Category, Page, FlashCardSet, FlashCard
+from card.models import Category, Page, FlashCardSet, FlashCard, Comment
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate
 
@@ -40,15 +40,22 @@ def populate():
             'Other Frameworks': {'pages': other_pages, 'views': 32, 'likes': 16}}
 
 
-    #Create user, if not already created
+    #Create example users, if not already created
     #Flash card sets will be created with this user as the creator
+    example_users = [
+        {'username':'FlashCardMan', 'password':'jyRquc318X', 'email':'flashcardman@gmail.com'},
+        {'username':'FlashCardWoman', 'password':'=6r76vQ=Z2!Az+gW', 'email':'flashcardwoman@gmail.com'},
+        {'username':'Yosemite', 'password':'UVyLCLS!2-r^[*yx', 'email':'yosemite@yahoo.com'},
+        {'username':'Uncle_Randy', 'password':'&9*m_4.^Q3{q$2vS', 'email':'unclerandy@outlook.com'},
+    ]
     
-    user = authenticate(username="FlashCardMan", password="jyRquc318X!w9ewnZf^")
-    if user is None:
-        user = User.objects.create_user(username="FlashCardMan", email ="flashcardman@gmail.com", password="jyRquc318X!w9ewnZf^")
-    user.save()
+    for example_user in example_users:
+        user = authenticate(username=example_user['username'], password=example_user['password'])
+        if user is None:
+            user = User.objects.create_user(username=example_user['username'], email=example_user['email'], password=example_user['password'])
+        user.save()
+        
     #Creating flash card sets: one for math, english and physics
-
     math_flash_cards = [
         {'question_text':'5+5?','answer_text':'10'},
         {'question_text':'12+9=?','answer_text':'21'},
@@ -58,7 +65,7 @@ def populate():
     computing_flash_cards = [
         {'question_text':'What does the function print("Hello World") do?', 'answer_text': 'Prints "Hello World" to the screen'},
         {'question_text':'What function may we use to find the length of an array?', 'answer_text': 'len(array)'},
-        {'question_text':'What function could we call the find the maximum value in an array?', 'answer_text': 'max(array)'}
+        {'question_text':'What numpy function could we call the find the maximum value in an array?', 'answer_text': 'max(array)'}
     ]
     
     physics_flash_cards = [
@@ -68,13 +75,13 @@ def populate():
     ]
     
     flash_card_sets = {
-        'Basic Addition Questions':{'user': user,'subject':'math','likes':20, 'flash_cards': math_flash_cards},
-        'Python predefined functions':{'user': user,'subject':'math','likes':0, 'flash_cards': computing_flash_cards},
-        'Newtons Laws of Motion':{'user': user,'subject':'math','likes':2, 'flash_cards': physics_flash_cards}
+        'Basic Addition Questions':{'user': authenticate(username=example_users[2]['username'], password=example_users[2]['password']),'subject':'math','likes':20, 'flash_cards': math_flash_cards},
+        'Python predefined functions':{'user': authenticate(username=example_users[1]['username'], password=example_users[1]['password']),'subject':'math','likes':0, 'flash_cards': computing_flash_cards},
+        'Newtons Laws of Motion':{'user': authenticate(username=example_users[0]['username'], password=example_users[0]['password']),'subject':'math','likes':2, 'flash_cards': physics_flash_cards}
     }
     
     for flash_card_set, flash_card_set_data in flash_card_sets.items():
-        fcs = add_flash_card_set(user=user, name=flash_card_set, subject=flash_card_set_data['subject'])
+        fcs = add_flash_card_set(user=flash_card_set_data['user'], name=flash_card_set, subject=flash_card_set_data['subject'])
         for fc in flash_card_set_data['flash_cards']:
             add_flash_card(fcs, fc['question_text'], fc['answer_text'])
         
@@ -92,9 +99,19 @@ def populate():
     for c in Category.objects.all():
         for p in Page.objects.filter(category=c):
             print(f'- {c}: {p}')
+    
+    #Creating example comments
+    comments = [
+        {'user': authenticate(username=example_users[0]['username'], password=example_users[0]['password']), 'flash_card_set': FlashCardSet.objects.get(name='Basic Addition Questions'), 'comment_text':'This helped me do my taxes - thanks!'},
+        {'user': authenticate(username=example_users[3]['username'], password=example_users[3]['password']), 'flash_card_set': FlashCardSet.objects.get(name='Newtons Laws of Motion'), 'comment_text':'What even is an inertial frame???'},
+        {'user': authenticate(username=example_users[3]['username'], password=example_users[3]['password']), 'flash_card_set': FlashCardSet.objects.get(name='Python predefined functions'), 'comment_text':'mmmm... hamburger'}
+    ]
 
-
-
+    for comment in comments:
+        c = add_comment(comment['user'], comment['flash_card_set'], comment['comment_text'])
+        print(f'- {comment["flash_card_set"]} comment: {c}')
+    
+    
 def add_flash_card_set(user, name,subject='default',likes=0):
     fcs = FlashCardSet.objects.get_or_create(user=user, name=name)[0]
     fcs.subject = subject
@@ -107,6 +124,12 @@ def add_flash_card(fcs, question_text, answer_text):
     fc.save()
     return fc
 
+def add_comment(user, flash_card_set, comment_text):
+    c = Comment.objects.get_or_create(user=user, flash_card_set=flash_card_set, comment_text=comment_text)[0]
+    c.save()
+    return c
+    
+    
 def add_page(cat, title, url, views=0):
     p = Page.objects.get_or_create(category=cat, title=title)[0]
     p.url = url
