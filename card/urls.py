@@ -13,4 +13,13 @@ urlpatterns = [
     path('login/', views.user_login, name='login'),
     path('restricted/', views.restricted, name='restricted'),
     path('logout/', views.user_logout, name='logout'),
+    path('settings/', views.settings, name='settings'),
+    path('account/', views.account, name='account'),
+    path('my_cards/', views.my_cards, name='my_cards'),
+    path('my_cards/comment/', views.comment, name='comment'),
+    path('test/', views.test, name='test'),
+    path('create/', views.create, name='create'),
+    path('create/help/', views.help, name='help'),
+    path('create/edit/', views.edit, name='edit'),
+    path('search/', views.search, name='search'),
 ]

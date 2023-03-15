@@ -13,7 +13,7 @@ def index(request):
     page_list = Page.objects.order_by('-views')[:5]
 
     context_dict = {}
-    context_dict['boldmessage'] = 'Welcome to Flash Card'
+    context_dict['boldmessage'] = 'Welcome to Flash Card Master'
     context_dict['categories'] = category_list
     context_dict['pages'] = page_list
 
@@ -167,6 +167,44 @@ def user_logout(request):
     logout(request)
     # Take the user back to the homepage
     return redirect(reverse('card:index'))
+
+
+def settings(request):
+    return render(request, 'card/settings.html')
+
+
+def account(request):
+    return render(request, 'card/account.html')
+
+
+def my_cards(request):
+    return render(request, 'card/my_cards.html')
+
+
+def comment(request):
+    return render(request, 'card/comment.html')
+
+
+def test(request):
+    return render(request, 'card/test.html')
+
+
+def create(request):
+    return render(request, 'card/create.html')
+
+
+def help(request):
+    return render(request, 'card/help.html')
+
+
+def edit(request):
+    return render(request, 'card/edit.html')
+
+
+def search(request):
+    return render(request, 'card/search.html')
+
+
 
 
 

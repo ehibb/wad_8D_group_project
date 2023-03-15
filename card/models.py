@@ -44,7 +44,6 @@ class UserProfile(models.Model):
         return self.user.username
 
 
-
 """
 FLASHCARDSET MODEL: Contains information on a given set of flash cards
 Fields:
@@ -56,12 +55,13 @@ Fields:
 """
 
 SUBJECT_CHOICES = (
-    ('general','General'),
-    ('math','Math'),
-    ('english','English'),
-    ('computing','Computing'),
-    ('physics','Physics'),
+    ('general', 'General'),
+    ('math', 'Math'),
+    ('english', 'English'),
+    ('computing', 'Computing'),
+    ('physics', 'Physics'),
 )
+
 
 class FlashCardSet(models.Model):
     NAME_MAX_LENGTH = 50
@@ -69,23 +69,22 @@ class FlashCardSet(models.Model):
     
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     name = models.CharField(max_length=NAME_MAX_LENGTH, unique=True)
-    number_of_questions=models.IntegerField(default=0)
-    subject = models.CharField(max_length = SUBJECT_MAX_LENGTH, choices=SUBJECT_CHOICES, default='general')
+    number_of_questions = models.IntegerField(default=0)
+    subject = models.CharField(max_length=SUBJECT_MAX_LENGTH, choices=SUBJECT_CHOICES, default='general')
     likes = models.IntegerField(default=0)
     slug = models.SlugField(unique=True)
     
     def save(self, *args, **kwargs):
         self.slug = slugify(self.name)
-        self.number_of_questions = FlashCard.objects.filter(flash_card_set = self).count()
+        self.number_of_questions = FlashCard.objects.filter(flash_card_set=self).count()
         super(FlashCardSet, self).save(*args, **kwargs)       
-        
-    
+
     def __str__(self):
         return self.name
-    
-    
+
     class Meta:
         verbose_name_plural = 'Flash Card Sets'
+
  
 """
 FLASHCARD MODEL: Contains information on a given flash card
@@ -95,13 +94,14 @@ Fields:
     answer_text: Text holding the answer
 """
 
+
 class FlashCard(models.Model):
     QUESTION_MAX_LENGTH = 500
     ANSWER_MAX_LENGTH = QUESTION_MAX_LENGTH
     
     flash_card_set = models.ForeignKey(FlashCardSet, on_delete=models.CASCADE)
-    question_text = models.CharField(max_length = QUESTION_MAX_LENGTH)
-    answer_text = models.CharField(max_length = ANSWER_MAX_LENGTH)
+    question_text = models.CharField(max_length=QUESTION_MAX_LENGTH)
+    answer_text = models.CharField(max_length=ANSWER_MAX_LENGTH)
     
     def __str__(self):
         return self.question_text
@@ -109,5 +109,3 @@ class FlashCard(models.Model):
     def save(self, *args, **kwargs):
         self.flash_card_set.save()
         super(FlashCard, self).save(*args, **kwargs)
-
-
