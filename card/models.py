@@ -22,19 +22,6 @@ class Category(models.Model):
         return self.name
 
 
-class Page(models.Model):
-    TITLE_MAX_LENGTH = 128
-    URL_MAX_LENGTH = 200
-
-    category = models.ForeignKey(Category, on_delete=models.CASCADE)
-    title = models.CharField(max_length=TITLE_MAX_LENGTH)
-    url = models.URLField(max_length=URL_MAX_LENGTH)
-    views = models.IntegerField(default=0)
-
-    def __str__(self):
-        return self.title
-
-
 class UserProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     website = models.URLField(blank=True)
@@ -68,12 +55,13 @@ class FlashCardSet(models.Model):
     SUBJECT_MAX_LENGTH = 20
     
     user = models.ForeignKey(User, on_delete=models.CASCADE)
+    category = models.ForeignKey(Category, on_delete=models.CASCADE)
     name = models.CharField(max_length=NAME_MAX_LENGTH, unique=True)
     number_of_questions = models.IntegerField(default=0)
     subject = models.CharField(max_length=SUBJECT_MAX_LENGTH, choices=SUBJECT_CHOICES, default='general')
     likes = models.IntegerField(default=0)
     slug = models.SlugField(unique=True)
-    
+
     def save(self, *args, **kwargs):
         self.slug = slugify(self.name)
         self.number_of_questions = FlashCard.objects.filter(flash_card_set=self).count()
@@ -126,7 +114,7 @@ class FlashCardTest(models.Model):
     score = models.IntegerField(default=0)
     
     def __str__(self):
-        return f"Test on {this.flash_card_set} by {this.user} achieving a score of {this.score}."
+        return f"Test on {self.flash_card_set} by {self.user} achieving a score of {self.score}."
         
 """
 Comment Model: Contains a comment made by a user on a flash card set

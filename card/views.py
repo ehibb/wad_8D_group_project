@@ -3,14 +3,14 @@ from django.http import HttpResponse
 from django.urls import reverse
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
-from .models import Category, Page
+from .models import Category, FlashCardSet
 from .forms import CategoryForm, PageForm, UserForm, UserProfileForm
 
 
 def index(request):
 
     category_list = Category.objects.order_by('-likes')[:5]
-    page_list = Page.objects.order_by('-views')[:5]
+    page_list = FlashCardSet.objects.order_by('-likes')[:5]
 
     context_dict = {}
     context_dict['boldmessage'] = 'Welcome to Flash Card Master'
@@ -37,10 +37,10 @@ def show_category(request, category_name_slug):
 
         # Retrieve all of the associated pages.
         # The filter() will return a list of page objects or an empty list.
-        pages = Page.objects.filter(category=category)
+        CardSet = FlashCardSet.objects.filter(category=category)
 
         # Adds our results list to the template context under name pages.
-        context_dict['pages'] = pages
+        context_dict['cardsets'] = CardSet
 
         # We also add the category object from # the database to the context dictionary.
         # We'll use this in the template to verify that the category exists.
@@ -72,7 +72,7 @@ def add_category(request):
     return render(request, 'card/add_category.html', {'form': form})
 
 
-def add_page(request, category_name_slug):
+def add_cardset(request, category_name_slug):
     try:
         category = Category.objects.get(slug=category_name_slug)
     except:
@@ -99,7 +99,7 @@ def add_page(request, category_name_slug):
             print(form.errors)
 
     context_dict = {'form': form, 'category': category}
-    return render(request, 'card/add_page.html', context=context_dict)
+    return render(request, 'card/add_cardset.html', context=context_dict)
 
 
 def register(request):
