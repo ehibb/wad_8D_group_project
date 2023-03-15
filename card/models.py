@@ -55,7 +55,7 @@ class FlashCardSet(models.Model):
     SUBJECT_MAX_LENGTH = 20
     
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    category = models.ForeignKey(Category, on_delete=models.CASCADE)
+    # category = models.ForeignKey(Category, on_delete=models.CASCADE)
     name = models.CharField(max_length=NAME_MAX_LENGTH, unique=True)
     number_of_questions = models.IntegerField(default=0)
     subject = models.CharField(max_length=SUBJECT_MAX_LENGTH, choices=SUBJECT_CHOICES, default='general')

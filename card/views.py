@@ -4,7 +4,7 @@ from django.urls import reverse
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from .models import Category, FlashCardSet
-from .forms import CategoryForm, PageForm, UserForm, UserProfileForm
+from .forms import CategoryForm, FlashCardSetForm, UserForm, UserProfileForm
 
 
 def index(request):
@@ -82,10 +82,10 @@ def add_cardset(request, category_name_slug):
     if category is None:
         return redirect('/card/')
 
-    form = PageForm()
+    form = FlashCardSetForm()
 
     if request.method == 'POST':
-        form = PageForm(request.POST)
+        form = FlashCardSetForm(request.POST)
 
         if form.is_valid():
             if category:

@@ -5,7 +5,7 @@ os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'flashcard_website.settings')
 import django
 
 django.setup()
-from card.models import Category, Page, FlashCardSet, FlashCard, Comment
+from card.models import Category, FlashCardSet, FlashCard, Comment
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate
 
@@ -88,17 +88,6 @@ def populate():
     for fcs in FlashCardSet.objects.all():
         for fc in FlashCard.objects.filter(flash_card_set = fcs):
             print(f'- {fcs}: {fc}')
-     
-
-    for cat, cat_data in cats.items():
-        c = add_cat(cat, views=cat_data['views'], likes=cat_data['likes'])
-        for p in cat_data['pages']:
-            add_page(c, p['title'], p['url'], views=p['views'])
-
-    # Print out the categories we have added.
-    for c in Category.objects.all():
-        for p in Page.objects.filter(category=c):
-            print(f'- {c}: {p}')
     
     #Creating example comments
     comments = [
@@ -118,24 +107,18 @@ def add_flash_card_set(user, name,subject='default',likes=0):
     fcs.likes = likes
     fcs.save()
     return fcs
+
     
 def add_flash_card(fcs, question_text, answer_text):
     fc = FlashCard.objects.get_or_create(flash_card_set = fcs, question_text=question_text,answer_text=answer_text)[0]
     fc.save()
     return fc
 
+
 def add_comment(user, flash_card_set, comment_text):
     c = Comment.objects.get_or_create(user=user, flash_card_set=flash_card_set, comment_text=comment_text)[0]
     c.save()
     return c
-    
-    
-def add_page(cat, title, url, views=0):
-    p = Page.objects.get_or_create(category=cat, title=title)[0]
-    p.url = url
-    p.views = views
-    p.save()
-    return p
 
 
 def add_cat(name, views=0, likes=0):
