@@ -35,9 +35,10 @@ def populate():
         {'title': 'Flask', 'url': 'http://flask.pocoo.org', 'views': 422}
     ]
 
-    cats = {'Python': {'pages': python_pages, 'views': 128, 'likes': 64},
-            'Django': {'pages': django_pages, 'views': 64, 'likes': 32},
-            'Other Frameworks': {'pages': other_pages, 'views': 32, 'likes': 16}}
+    cats = {'Maths': {'views': 128, 'likes': 64},
+            'Physics': {'views': 64, 'likes': 32},
+            'Computing': {'views': 32, 'likes': 16},
+            'Other':{'views': 128, 'likes': 64}}
 
 
     #Create example users, if not already created
@@ -75,19 +76,22 @@ def populate():
     ]
     
     flash_card_sets = {
-        'Basic Addition Questions':{'user': authenticate(username=example_users[2]['username'], password=example_users[2]['password']),'subject':'math','likes':20, 'flash_cards': math_flash_cards},
-        'Python predefined functions':{'user': authenticate(username=example_users[1]['username'], password=example_users[1]['password']),'subject':'math','likes':0, 'flash_cards': computing_flash_cards},
-        'Newtons Laws of Motion':{'user': authenticate(username=example_users[0]['username'], password=example_users[0]['password']),'subject':'math','likes':2, 'flash_cards': physics_flash_cards}
+        'Basic Addition Questions':{'user': authenticate(username=example_users[2]['username'], password=example_users[2]['password']),'subject':'Maths','likes':20, 'flash_cards': math_flash_cards},
+        'Python predefined functions':{'user': authenticate(username=example_users[1]['username'], password=example_users[1]['password']),'subject':'Computing','likes':0, 'flash_cards': computing_flash_cards},
+        'Newtons Laws of Motion':{'user': authenticate(username=example_users[0]['username'], password=example_users[0]['password']),'subject':'Physics','likes':2, 'flash_cards': physics_flash_cards}
     }
+    for cat, cat_data in cats.items():
+        c = add_cat(cat, views=cat_data['views'], likes=cat_data['likes'])
     
     for flash_card_set, flash_card_set_data in flash_card_sets.items():
-        fcs = add_flash_card_set(user=flash_card_set_data['user'], name=flash_card_set, subject=flash_card_set_data['subject'])
+        fcs = add_flash_card_set(user=flash_card_set_data['user'], name=flash_card_set, category=Category.objects.get(name=flash_card_set_data['subject']), subject=flash_card_set_data['subject'])
         for fc in flash_card_set_data['flash_cards']:
             add_flash_card(fcs, fc['question_text'], fc['answer_text'])
-        
-    for fcs in FlashCardSet.objects.all():
-        for fc in FlashCard.objects.filter(flash_card_set = fcs):
-            print(f'- {fcs}: {fc}')
+    # Print out the categories we have added.
+    for c in Category.objects.all():
+        for fcs in FlashCardSet.objects.filter(subject=c.name):
+            for fc in FlashCard.objects.filter(flash_card_set = fcs):
+                print(f'- {c.name}: {fcs} - {fc}')
     
     #Creating example comments
     comments = [
@@ -95,14 +99,13 @@ def populate():
         {'user': authenticate(username=example_users[3]['username'], password=example_users[3]['password']), 'flash_card_set': FlashCardSet.objects.get(name='Newtons Laws of Motion'), 'comment_text':'What even is an inertial frame???'},
         {'user': authenticate(username=example_users[3]['username'], password=example_users[3]['password']), 'flash_card_set': FlashCardSet.objects.get(name='Python predefined functions'), 'comment_text':'mmmm... hamburger'}
     ]
-
+    
     for comment in comments:
         c = add_comment(comment['user'], comment['flash_card_set'], comment['comment_text'])
         print(f'- {comment["flash_card_set"]} comment: {c}')
-    
-    
-def add_flash_card_set(user, name,subject='default',likes=0):
-    fcs = FlashCardSet.objects.get_or_create(user=user, name=name)[0]
+        
+def add_flash_card_set(user, name, category, subject='other',likes=0):
+    fcs = FlashCardSet.objects.get_or_create(user=user, name=name, category=category)[0]
     fcs.subject = subject
     fcs.likes = likes
     fcs.save()

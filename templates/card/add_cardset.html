@@ -6,7 +6,7 @@
 {% endblock %}
 
 {% block body_block %}
-    <h1>Add a Page</h1>
+    <h2>Add a Page</h2>
     <div>
         <form id="category_form" method="post" action="/card/category/{{ category.slug }}/add_cardset/">
             {% csrf_token %}

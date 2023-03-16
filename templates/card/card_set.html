@@ -1,0 +1,29 @@
+{% extends 'card/base.html' %}
+{% load staticfiles %}
+
+{% block title_block %}
+    {% if flash_card_set %}
+        {{ flash_card_set.name }}
+    {% else %}
+        Unknown Category
+    {% endif %}
+{% endblock %}
+
+{% block body_block %}
+    {% if flash_card_set %}
+        <h2>{{ flash_card_set.name }}</h2>
+    {% if flash_cards %}
+    <ul>
+		{% for card in flash_cards %}
+		<li>QUESTION: {{ card.question_text }}  ANSWER: {{ card.answer_text }} </li>
+		{% endfor %}
+	</ul>
+    {% else %}
+        <strong>No card sets currently in category.</strong>
+    {% endif %}
+
+
+    {% else %}
+        The specified flash card set does not exist.
+    {% endif %}
+{% endblock %}

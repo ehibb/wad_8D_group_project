@@ -5,17 +5,7 @@
     Flash Card Master - HomePage
 {% endblock %}
 
-{% block css %}
-    <link rel="stylesheet" href="{% static 'css/styles.css' %}" type="text/css" />
-{% endblock %}
-
-{% block body_block %}
-    <div class="top">
-		<h1>Hey there partner!</h1>
-        <img id = "float-left" src="{% static 'images/flashcard.png' %}" alt="Picture of FlashCard" />
-        <strong>{{ boldmessage }}</strong><br /> <!-- br/ means adding new line-->
-    </div>
-	
+{% block body_block %}	
 	<div class="middle">
 		<div class="box" id="box1">
 			<h2>Most Liked Categories</h2>
@@ -31,11 +21,11 @@
 		</div>
 
 		<div class="box" id="box2">
-			<h2>Most Viewed Pages</h2>
+			<h2>Most Viewed Flash Card Sets</h2>
 			{% if pages %}
 				<ul>
-                {% for page in pages %}
-                    <li><a href="{{ page.url }}">{{ page.title }}</a></li>
+                {% for flash_card_set in flash_card_sets %}
+                    <li><a href="{% url 'card:card_set' flash_card_set.slug %}">{{ flash_card_set.name }}</a></li>
                 {% endfor %}
 				</ul>
 			{% else %}

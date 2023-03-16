@@ -3,19 +3,19 @@ from django.http import HttpResponse
 from django.urls import reverse
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
-from .models import Category, FlashCardSet
+from .models import Category, FlashCardSet, FlashCard
 from .forms import CategoryForm, FlashCardSetForm, UserForm, UserProfileForm
 
 
 def index(request):
 
     category_list = Category.objects.order_by('-likes')[:5]
-    page_list = FlashCardSet.objects.order_by('-likes')[:5]
+    flash_card_sets = FlashCardSet.objects.order_by('-likes')[:5]
 
     context_dict = {}
     context_dict['boldmessage'] = 'Welcome to Flash Card Master'
     context_dict['categories'] = category_list
-    context_dict['pages'] = page_list
+    context_dict['flash_card_sets'] = flash_card_sets
 
     return render(request, 'card/index.html', context=context_dict)
 
@@ -23,6 +23,22 @@ def index(request):
 def about(request):
     return render(request, 'card/about.html')
 
+def show_flash_card_set(request, flash_card_set_slug):
+    context_dict = {}
+    
+    try:
+        card_set = FlashCardSet.objects.get(slug=flash_card_set_slug)
+        
+        cards = FlashCard.objects.filter(flash_card_set = card_set)
+        print(cards)
+        
+        context_dict['flash_card_set'] = card_set
+        context_dict['flash_cards'] = cards
+    except FlashCardSet.DoesNotExist:
+        context_dict['flash_card_set'] = None
+        context_dict['flash_cards'] = None
+        
+    return render(request, 'card/card_set.html', context=context_dict)
 
 def show_category(request, category_name_slug):
     # Create a context dictionary which we can pass
@@ -37,10 +53,10 @@ def show_category(request, category_name_slug):
 
         # Retrieve all of the associated pages.
         # The filter() will return a list of page objects or an empty list.
-        CardSet = FlashCardSet.objects.filter(category=category)
+        CardSets = FlashCardSet.objects.filter(category=category)
 
         # Adds our results list to the template context under name pages.
-        context_dict['cardsets'] = CardSet
+        context_dict['cardsets'] = CardSets
 
         # We also add the category object from # the database to the context dictionary.
         # We'll use this in the template to verify that the category exists.
@@ -89,10 +105,10 @@ def add_cardset(request, category_name_slug):
 
         if form.is_valid():
             if category:
-                page = form.save(commit=False)
-                page.category = category
-                page.views = 0
-                page.save()
+                flash_card_set = form.save(commit=False)
+                flash_card_set.user = request.user
+                flash_card_set.category = category
+                flash_card_set.save()
 
                 return redirect(reverse('card:show_category', kwargs={'category_name_slug': category_name_slug}))
         else:

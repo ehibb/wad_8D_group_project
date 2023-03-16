@@ -1,5 +1,5 @@
 from django import forms
-from card.models import Category, UserProfile, FlashCardSet, FlashCard
+from card.models import Category, UserProfile, FlashCardSet, FlashCard, Comment
 from django.contrib.auth.models import User
 
 
@@ -17,20 +17,33 @@ class CategoryForm(forms.ModelForm):
 
 class FlashCardSetForm(forms.ModelForm):  # Which is PageFrom before
     # Foreign keys not required here
+    
+    
     name = forms.CharField(max_length=FlashCardSet.NAME_MAX_LENGTH, help_text="Please enter the title.")
-    subject = forms.CharField(max_length=FlashCardSet.SUBJECT_MAX_LENGTH, help_text="Please enter the subject")
+    subject = forms.ChoiceField(choices = FlashCardSet.SUBJECT_CHOICES)
     likes = forms.IntegerField(widget=forms.HiddenInput(), initial=0)
     slug = forms.CharField(widget=forms.HiddenInput(), required=False)
 
     class Meta:
         # Provide an association between the ModelForm and a model
         model = FlashCardSet
+        exclude = ['User']
         fields = ('name', 'subject')
-
-
+        
+"""
+FlashCardForm should take question text and answer text
+Foreign keys not needed
+"""
 class FlashCardForm(forms.ModelForm):  # Modify here
     pass
 
+
+"""
+CommentForm should simply take comment text
+Again no foreign keys needed
+"""
+class CommentForm(forms.ModelForm):
+    pass
 
 class UserForm(forms.ModelForm):
     password = forms.CharField(widget=forms.PasswordInput())

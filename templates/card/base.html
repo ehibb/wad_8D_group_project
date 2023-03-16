@@ -8,10 +8,14 @@
 				Flash Card Master
 			{% endblock %}
 		</title>
-
-        {% block css %}{% endblock %}
+		<link rel="stylesheet" href="{% static 'css/styles.css' %}" type="text/css" />
 	</head>
 	<body>
+		<div class="top">
+			<h1>Flash Card Master</h1>
+			<img id = "float-left" src="{% static 'images/flashcard.png' %}" alt="Picture of FlashCard" />
+			<strong>{{ boldmessage }}</strong><br /> <!-- br/ means adding new line-->
+		</div>
         <div>
 			{% block body_block %}
 			{% endblock %}

@@ -11,15 +11,15 @@
 
 {% block body_block %}
     {% if category %}
-        <h1>{{ category.name }}</h1>
+        <h2>{{ category.name }}</h2>
     {% if cardsets %}
     <ul>
 		{% for cardset in cardsets %}
-		<li><a href="{{ cardset.url }}">{{ cardset.title }}</a></li>
+		<li><a href="{% url 'card:card_set' cardset.slug %}">{{ cardset.name }}</a></li>
 		{% endfor %}
 	</ul>
     {% else %}
-        <strong>No pages currently in category.</strong>
+        <strong>No card sets currently in category.</strong>
     {% endif %}
 
     <a href="{% url 'card:add_cardset' category.slug %}">Add Card Set</a><br/>

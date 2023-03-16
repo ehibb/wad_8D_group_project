@@ -22,4 +22,5 @@ urlpatterns = [
     path('create/help/', views.help, name='help'),
     path('create/edit/', views.edit, name='edit'),
     path('search/', views.search, name='search'),
+    path('card_set/<slug:flash_card_set_slug>/', views.show_flash_card_set, name='card_set'),
 ]
