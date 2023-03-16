@@ -1,5 +1,5 @@
 from django import forms
-from card.models import Page, Category, UserProfile
+from card.models import Category, UserProfile, FlashCardSet, FlashCard, Comment
 from django.contrib.auth.models import User
 
 
@@ -15,26 +15,35 @@ class CategoryForm(forms.ModelForm):
         fields = ('name',)
 
 
-class PageForm(forms.ModelForm):
-    title = forms.CharField(max_length=Page.TITLE_MAX_LENGTH, help_text="Please enter the title of the page.")
-    url = forms.URLField(max_length=Page.URL_MAX_LENGTH, help_text="Please enter the URL of the page.")
-    views = forms.IntegerField(widget=forms.HiddenInput(), initial=0)
+class FlashCardSetForm(forms.ModelForm):  # Which is PageFrom before
+    # Foreign keys not required here
+    
+    
+    name = forms.CharField(max_length=FlashCardSet.NAME_MAX_LENGTH, help_text="Please enter the title.")
+    subject = forms.ChoiceField(choices = FlashCardSet.SUBJECT_CHOICES)
+    likes = forms.IntegerField(widget=forms.HiddenInput(), initial=0)
+    slug = forms.CharField(widget=forms.HiddenInput(), required=False)
 
     class Meta:
         # Provide an association between the ModelForm and a model
-        model = Page
-        exclude = ('category',)
-    # fields = ('title', 'url', 'views')
+        model = FlashCardSet
+        exclude = ['User']
+        fields = ('name', 'subject')
+        
+"""
+FlashCardForm should take question text and answer text
+Foreign keys not needed
+"""
+class FlashCardForm(forms.ModelForm):  # Modify here
+    pass
 
-    def clean(self):
-        cleaned_data = self.cleaned_data
-        url = cleaned_data.get('url')
-        # If url is not empty and doesn't start with 'http://',then prepend 'http://'.
-        if url and not url.startswith('http://'):
-            url = f'http://{url}'
-            cleaned_data['url'] = url
-        return cleaned_data
 
+"""
+CommentForm should simply take comment text
+Again no foreign keys needed
+"""
+class CommentForm(forms.ModelForm):
+    pass
 
 class UserForm(forms.ModelForm):
     password = forms.CharField(widget=forms.PasswordInput())

@@ -3,19 +3,19 @@ from django.http import HttpResponse
 from django.urls import reverse
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
-from .models import Category, Page
-from .forms import CategoryForm, PageForm, UserForm, UserProfileForm
+from .models import Category, FlashCardSet, FlashCard
+from .forms import CategoryForm, FlashCardSetForm, UserForm, UserProfileForm
 
 
 def index(request):
 
     category_list = Category.objects.order_by('-likes')[:5]
-    page_list = Page.objects.order_by('-views')[:5]
+    flash_card_sets = FlashCardSet.objects.order_by('-likes')[:5]
 
     context_dict = {}
-    context_dict['boldmessage'] = 'Welcome to Flash Card'
+    context_dict['boldmessage'] = 'Welcome to Flash Card Master'
     context_dict['categories'] = category_list
-    context_dict['pages'] = page_list
+    context_dict['flash_card_sets'] = flash_card_sets
 
     return render(request, 'card/index.html', context=context_dict)
 
@@ -23,6 +23,21 @@ def index(request):
 def about(request):
     return render(request, 'card/about.html')
 
+def show_flash_card_set(request, flash_card_set_slug):
+    context_dict = {}
+    
+    try:
+        card_set = FlashCardSet.objects.get(slug=flash_card_set_slug)
+        
+        cards = FlashCard.objects.filter(flash_card_set = card_set)
+        
+        context_dict['flash_card_set'] = card_set
+        context_dict['flash_cards'] = cards
+    except FlashCardSet.DoesNotExist:
+        context_dict['flash_card_set'] = None
+        context_dict['flash_cards'] = None
+        
+    return render(request, 'card/card_set.html', context=context_dict)
 
 def show_category(request, category_name_slug):
     # Create a context dictionary which we can pass
@@ -37,10 +52,10 @@ def show_category(request, category_name_slug):
 
         # Retrieve all of the associated pages.
         # The filter() will return a list of page objects or an empty list.
-        pages = Page.objects.filter(category=category)
+        CardSets = FlashCardSet.objects.filter(category=category)
 
         # Adds our results list to the template context under name pages.
-        context_dict['pages'] = pages
+        context_dict['cardsets'] = CardSets
 
         # We also add the category object from # the database to the context dictionary.
         # We'll use this in the template to verify that the category exists.
@@ -72,7 +87,7 @@ def add_category(request):
     return render(request, 'card/add_category.html', {'form': form})
 
 
-def add_page(request, category_name_slug):
+def add_cardset(request, category_name_slug):
     try:
         category = Category.objects.get(slug=category_name_slug)
     except:
@@ -82,24 +97,24 @@ def add_page(request, category_name_slug):
     if category is None:
         return redirect('/card/')
 
-    form = PageForm()
+    form = FlashCardSetForm()
 
     if request.method == 'POST':
-        form = PageForm(request.POST)
+        form = FlashCardSetForm(request.POST)
 
         if form.is_valid():
             if category:
-                page = form.save(commit=False)
-                page.category = category
-                page.views = 0
-                page.save()
+                flash_card_set = form.save(commit=False)
+                flash_card_set.user = request.user
+                flash_card_set.category = category
+                flash_card_set.save()
 
                 return redirect(reverse('card:show_category', kwargs={'category_name_slug': category_name_slug}))
         else:
             print(form.errors)
 
     context_dict = {'form': form, 'category': category}
-    return render(request, 'card/add_page.html', context=context_dict)
+    return render(request, 'card/add_cardset.html', context=context_dict)
 
 
 def register(request):
@@ -167,6 +182,44 @@ def user_logout(request):
     logout(request)
     # Take the user back to the homepage
     return redirect(reverse('card:index'))
+
+
+def settings(request):
+    return render(request, 'card/settings.html')
+
+
+def account(request):
+    return render(request, 'card/account.html')
+
+
+def my_cards(request):
+    return render(request, 'card/my_cards.html')
+
+
+def comment(request):
+    return render(request, 'card/comment.html')
+
+
+def test(request):
+    return render(request, 'card/test.html')
+
+
+def create(request):
+    return render(request, 'card/create.html')
+
+
+def help(request):
+    return render(request, 'card/help.html')
+
+
+def edit(request):
+    return render(request, 'card/edit.html')
+
+
+def search(request):
+    return render(request, 'card/search.html')
+
+
 
 
 
