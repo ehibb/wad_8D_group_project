@@ -1,35 +1,25 @@
-<!DOCTYPE html>
+{% extends 'card/base.html' %}
 {% load staticfiles %}
 
-<html>
-	<head>
-		<title>Login</title>
-    <link rel="stylesheet" href="{% static 'css/login.css' %}" type="text/css" >
-	</head>
 
-	<body>
-        <h1>Flash Card Master</h1>
-        <form id="login_form" method="post" action="{% url 'card:login' %}">
-        {% csrf_token %}
-        Username: <input type="text" name="username" value="" size="50" />
+{% block title_block %}
+    Flash Card Master - Login
+{% endblock %}
+
+{% block extra_css %}
+	<link rel="stylesheet" href="{% static 'css/login.css' %}" type="text/css" >
+{% endblock %}
+
+{% block body_block %}	
+	<h1>Flash Card Master</h1>
+    <form id="login_form" method="post" action="{% url 'card:login' %}">
+    {% csrf_token %}
+		Username: <input type="text" name="username" value="" size="50" />
         <br />
         Password: <input type="password" name="password" value="" size="50" />
         <br />
         <input type="submit" value="submit" />
     </form>
-        <div id="function">
-			<ul>
-				<li><a href="{% url 'card:add_category' %}">Add a New Category</a></li>
-				<li><a href="{% url 'card:about' %}">About</a></li>
-				<li><a href="{% url 'card:index' %}">Index</a></li>
-			</ul>
+{% endblock %}
 
-            <ul>
-                <li><a href="{% url 'card:restricted' %}">Restricted Page</a></li>
-                <li><a href="{% url 'card:logout' %}">Logout</a></li>
-                <li><a href="{% url 'card:register' %}">Sign Up</a></li>
-                <li><a href="{% url 'card:login' %}">Login</a></li>
-            </ul>
-		</div>
-	</body>
-</html>
+

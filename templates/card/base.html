@@ -9,6 +9,8 @@
 			{% endblock %}
 		</title>
 		<link rel="stylesheet" href="{% static 'css/styles.css' %}" type="text/css" />
+		{% block extra_css %}
+		{% endblock %}
 	</head>
 	<body>
 		<div class="top">
@@ -23,16 +25,16 @@
 		<br />
 		<div id="function">
 			<ul>
-				<li><a href="{% url 'card:add_category' %}">Add a New Category</a></li>
+				{% if user.is_authenticated %}
+					<li><a href="{% url 'card:add_category' %}">Add a New Category</a></li>
+					<li><a href="{% url 'card:restricted' %}">Restricted Page</a></li>
+					<li><a href="{% url 'card:logout' %}">Logout</a></li>
+				{% else %}
+					<li><a href="{% url 'card:register' %}">Sign Up</a></li>
+					<li><a href="{% url 'card:login' %}">Login</a></li>
+				{% endif %}
 				<li><a href="{% url 'card:about' %}">About</a></li>
 				<li><a href="{% url 'card:index' %}">Index</a></li>
-			</ul>
-
-            <ul>
-                <li><a href="{% url 'card:restricted' %}">Restricted Page</a></li>
-                <li><a href="{% url 'card:logout' %}">Logout</a></li>
-                <li><a href="{% url 'card:register' %}">Sign Up</a></li>
-                <li><a href="{% url 'card:login' %}">Login</a></li>
             </ul>
 		</div>
 	</body>

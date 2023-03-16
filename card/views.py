@@ -30,7 +30,6 @@ def show_flash_card_set(request, flash_card_set_slug):
         card_set = FlashCardSet.objects.get(slug=flash_card_set_slug)
         
         cards = FlashCard.objects.filter(flash_card_set = card_set)
-        print(cards)
         
         context_dict['flash_card_set'] = card_set
         context_dict['flash_cards'] = cards
