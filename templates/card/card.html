@@ -1,0 +1,19 @@
+{% extends 'card/base.html' %}
+{% load staticfiles %}
+
+{% block title_block %}
+    {% if flash_card %}
+        {{ flash_card.name }}
+    {% else %}
+        Unknown Card
+    {% endif %}
+{% endblock %}
+
+{% block body_block %}
+    {% if flash_card %}
+        <h2>{{ flash_card.name }}</h2>
+
+    {% else %}
+        The specified flash card set does not exist.
+    {% endif %}
+{% endblock %}

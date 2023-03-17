@@ -1,0 +1,24 @@
+
+{% load staticfiles %}
+
+
+{% block css %}
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}" type="text/css" />
+{% endblock %}
+
+{% block body_block %}
+	
+	<div class="middle">
+		<div class="box" id="box1">
+			{% if card_list %}
+				<ul>
+					{% for card in card_list %}
+					<li>{{ card.name }}</a></li>
+					{% endfor %}
+				</ul>
+			{% else %}
+				<strong id="box-center">There are no cards present.</strong>
+			{% endif %}
+		</div>
+	</div>
+{% endblock %}

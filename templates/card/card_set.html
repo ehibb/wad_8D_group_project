@@ -12,6 +12,7 @@
 {% block body_block %}
     {% if flash_card_set %}
         <h2>{{ flash_card_set.name }}</h2>
+<h2>{{ flash_card_set.number_of_questions }}</h2>
     {% if flash_cards %}
     <ul>
 		{% for card in flash_cards %}
@@ -22,7 +23,7 @@
         <strong>No card sets currently in category.</strong>
     {% endif %}
 
-
+  <a href="{% url 'card:add_card' flash_card_set.slug %}">Add Card</a><br/>
     {% else %}
         The specified flash card set does not exist.
     {% endif %}
