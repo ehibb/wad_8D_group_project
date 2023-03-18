@@ -23,4 +23,5 @@ urlpatterns = [
     path('create/edit/', views.edit, name='edit'),
     path('search/', views.search, name='search'),
     path('card_set/<slug:flash_card_set_slug>/', views.show_flash_card_set, name='card_set'),
+    path('like_cardset/', views.LikeCardSetView.as_view(), name='like_cardset'),
 ]

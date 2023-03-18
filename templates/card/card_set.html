@@ -21,15 +21,26 @@
     {% if flash_cards %}
     <div class="container">
 
-
+        
+        {% if userLoggedIn %}
         <div class="toolbar">
             <button id="test" class="toolbutton"> Test </button>
             <button id="edit" class="toolbutton"> Edit </button>
             <button id="comment" class="toolbutton"> Comment </button>
-            <button id="like" class="toolbutton"> Like </button>  
+            <button id="like" class="toolbutton" data-cardsetname="{{ flash_card_set.name }}"> Like </button>  
+            <div class="infostat">
+                <img src="{% static 'images/heart-icon.png' %}" alt="Like Icon">
+                <p id="likes"> {{ flash_card_set.likes }} </p>
+            </div>
+            <div class="infostat">
+                <img src="{% static 'images/comment-box-icon.png' %}" alt="Comment Icon">
+                <p id="Comments"> {{ flash_card_comments.count }} </p>
+            </div>
         </div>
 
         <hr>
+        {% endif %}
+
 
         <div class="cardcontainer">
             <div class="slider-outer">

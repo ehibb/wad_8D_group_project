@@ -4,7 +4,10 @@ from django.urls import reverse
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from .models import Category, FlashCardSet, FlashCard
-from .forms import CategoryForm, FlashCardSetForm, UserForm, UserProfileForm
+from .forms import CategoryForm, FlashCardSetForm, UserForm, UserProfileForm, Comment
+from django.utils.decorators import method_decorator
+from django.views import View
+
 
 
 def index(request):
@@ -30,14 +33,38 @@ def show_flash_card_set(request, flash_card_set_slug):
         card_set = FlashCardSet.objects.get(slug=flash_card_set_slug)
         
         cards = FlashCard.objects.filter(flash_card_set = card_set)
+
+        comments = Comment.objects.filter(flash_card_set = card_set)
         
         context_dict['flash_card_set'] = card_set
         context_dict['flash_cards'] = cards
+        context_dict['flash_card_comments'] = comments
+        
+        if request.user.is_authenticated:
+            context_dict['userLoggedIn'] = True
+
     except FlashCardSet.DoesNotExist:
         context_dict['flash_card_set'] = None
         context_dict['flash_cards'] = None
         
     return render(request, 'card/card_set.html', context=context_dict)
+
+class LikeCardSetView(View):
+
+    @method_decorator(login_required)
+    def get(self, request):
+        cardset_name = request.GET['name']
+        try:
+            cardset = FlashCardSet.objects.get(name=cardset_name)
+        except Category.DoesNotExist:
+            return HttpResponse(-1)
+        except ValueError:
+            return HttpResponse(-1)
+        
+        cardset.likes = cardset.likes + 1
+        cardset.save()
+        return HttpResponse(cardset.likes)
+    
 
 def show_category(request, category_name_slug):
     # Create a context dictionary which we can pass

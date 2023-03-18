@@ -117,13 +117,13 @@
 
 .container {
     display: grid;
-    row-gap: 5px;
+    row-gap: 20px;
 }
 
 .toolbar {
     display: grid;
     justify-content: center;
-    grid-template-columns: auto auto auto auto;
+    grid-template-columns: auto auto auto auto auto auto;
     column-gap: 30px;
 }
 
@@ -152,4 +152,22 @@ hr {
 
 #test {
     background-color: rgb(232, 62, 46);
+}
+
+.infostat {
+    display: grid;
+    grid-template-columns: auto auto;
+    align-items: center;
+}
+
+.infostat img {
+    width: 40px;
+    height: 35px;
+}
+
+.infostat p {
+    float: right;
+    margin-left: 5px;
+    font-family: Helvetica;
+    font-weight: bold;
 }

@@ -1,4 +1,26 @@
 $(document).ready(function() {
+
+    $('#like').click(function () {
+        var cardsetname;
+        cardsetname = $(this).attr('data-cardsetname');
+
+        $.get('/card/like_cardset/',
+        {'name': cardsetname},
+        function (data) {
+            $('#likes').html(data);
+            
+            $('#like').prop('disabled',true);
+            $('#like').css('background-color','rgb(42, 122, 63)');
+
+        }
+        )
+    })
+        
+
+
+
+
+
     
     // When the page loads set the total number of cards display to the correct value
     $(function() {
