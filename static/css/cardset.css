@@ -28,6 +28,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    box-shadow: 0 0 0 2px black;
 }
 
 .flip .front {
@@ -36,12 +37,12 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    box-shadow: 0 0 0 2px black;
 }
 
 .flip .back {
     background-color: lightgreen;
     border-radius: 10px;
-
     display: flex;
     align-items: center;
     justify-content: center;
@@ -81,6 +82,7 @@
     margin-top: 10px;
     display: flex;
     justify-content: center;
+    border: solid;
 }
 
 .slidecontrols img {
@@ -103,4 +105,51 @@
 .backward {
     float: left;
     background-color: darkcyan;
+}
+
+
+.toolbutton {
+    width: 100px;
+    height: 45px;
+    font-weight: bold;
+    border-radius: 5px;
+}
+
+.container {
+    display: grid;
+    row-gap: 5px;
+}
+
+.toolbar {
+    display: grid;
+    justify-content: center;
+    grid-template-columns: auto auto auto auto;
+    column-gap: 30px;
+}
+
+.toolbar :active {
+    transform: scale(.98);
+}
+
+hr {
+    width: 900px;
+    height: 3px;
+    background-color: black;
+    border-radius: 10px;
+}
+
+#like {
+    background-color: rgb(116, 255, 36);
+}
+
+#comment {
+    background-color:gold;
+}
+
+#edit {
+    background-color: rgb(36, 251, 255);
+}
+
+#test {
+    background-color: rgb(232, 62, 46);
 }
