@@ -37,6 +37,11 @@
     display: block;
 }
 
+.categories-listing .card {
+    background-color: rgb(235, 224, 26);
+    border: 3px solid black;
+}
+
 .cardset-listing {
     display: none;
 }

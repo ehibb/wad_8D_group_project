@@ -16,79 +16,109 @@
 {% endblock %}
 
 {% block body_block %}
+
     {% if flash_card_set %}
-        <h2>{{ flash_card_set.name }}</h2>
-
-    {% if flash_cards %}
-    <div class="container">
-
-        
-        {% if userLoggedIn %}
-        <div class="toolbar">
-            <button id="test" class="toolbutton"> Test </button>
-            <button id="edit" class="toolbutton"> Edit </button>
-            <button id="comment" class="toolbutton"> Comment </button>
-            <button id="like" class="toolbutton" data-cardsetname="{{ flash_card_set.name }}"> Like </button>  
-            <div class="infostat">
-                <img src="{% static 'images/heart-icon.png' %}" alt="Like Icon">
-                <p id="likes"> {{ flash_card_set.likes }} </p>
+            <div class="title_container">
+                <h1 id="title">{{ flash_card_set.name }}</h1>
+                <div class="authorblock">
+                    {% if isCreator %}
+                        <h2 id="author"> Author - You </h2>
+                    {% else %}
+                        <h2 id="author"> Author - {{ flash_card_set.user }} </h2>
+                    {% endif %}
+                </div>
+                {% if isCreator %}
+                    {% if flash_cards %}
+                        <button id="edit" class="toolbutton"> Edit </button>
+                    {% else %}
+                        <button id="edit" class="toolbutton"> Create </button>
+                    {% endif %}
+                {% endif %}
+                <button id="test" class="toolbutton"> Test your Knowledge! </button>
             </div>
-            <div class="infostat">
-                <img src="{% static 'images/comment-box-icon.png' %}" alt="Comment Icon">
-                <p id="Comments"> {{ flash_card_comments.count }} </p>
-            </div>
-        </div>
 
-        <hr>
+        {% if flash_cards %}
+
+            <div class="container">
+                
+                <div class="cardcontainer">
+                    <div class="slider-outer">
+
+                        <div class="slider-inner">
+
+                            <section class="active">
+                                <div class="flipfirst">
+                                    <p>{{ flash_card_set.name }}</p>
+                                </div>
+                            </section>
+
+                            {% for card in flash_cards %}
+                        
+                                <section>
+                                    <div class="flip">
+                                        <div class="front">
+                                            <p class="question">{{ card.question_text }}</p>
+                                        </div>
+                                        <div class="back">
+                                            <p class="answer">{{ card.answer_text }} </p>
+                                        </div>
+                                    </div>           
+                                </section>
+
+                            {% endfor %}
+
+                        </div>
+
+
+                        <div class="bottomBar">
+
+                            <div class="infostat">
+                                <img src="{% static 'images/heart-icon.png' %}" alt="Like Icon">
+                                <p id="likes"> {{ flash_card_set.likes }} </p>
+                            </div>
+
+                            {% if user.is_authenticated %}
+                            <button id="like" class="toolbutton" data-cardsetname="{{ flash_card_set.name }}"> Like Cardset</button>  
+                            {% endif %}
+
+                            <div class="slidecontrols">
+                                <img class="backward" src="{% static 'images/left-arrow-icon.png' %}" alt="Left Arrow">
+                                <p class="slidenumbercurrent"> 1 </p>
+                                <p> / </p>
+                                <p class="slidenumbertotal"> X </p>
+                                <img class="forward" src="{% static 'images/right-arrow-icon.png' %}" alt="Right Arrow">
+                            </div>
+
+                            <div class="infostat">
+                                <img src="{% static 'images/comment-box-icon.png' %}" alt="Comment Icon">
+                                <p id="Comments"> {{ flash_card_comments.count }} </p>
+                            </div>
+
+                            {% if user.is_authenticated %}
+                            <button id="comment" class="toolbutton"> Comment </button>
+                            {% endif %}
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        {% else %}
+            {% if isCreator %}
+                <strong> There are currently no cards in this Flash Card Set. This is your set. Add some cards!</strong>
+            {% else %}
+                <strong> There are currently no cards in this Flash Card Set.</strong>
+            {% endif %}
         {% endif %}
 
+    
 
-        <div class="cardcontainer">
-            <div class="slider-outer">
+        
 
-                <div class="slider-inner">
-
-                    <section class="active">
-                        <div class="flipfirst">
-                            <p>{{ flash_card_set.name }}</p>
-                        </div>
-                    </section>
-
-                    {% for card in flash_cards %}
-                
-                        <section>
-                            <div class="flip">
-                                <div class="front">
-                                    <p class="question">{{ card.question_text }}</p>
-                                </div>
-                                <div class="back">
-                                    <p class="answer">{{ card.answer_text }} </p>
-                                </div>
-                            </div>           
-                        </section>
-
-                    {% endfor %}
-
-                </div>
-
-                <div class="slidecontrols">
-                    <img class="backward" src="{% static 'images/left-arrow-icon.png' %}" alt="Left Arrow">
-                    <p class="slidenumbercurrent"> 1 </p>
-                    <p> / </p>
-                    <p class="slidenumbertotal"> X </p>
-                    <img class="forward" src="{% static 'images/right-arrow-icon.png' %}" alt="Right Arrow">
-                </div>
-
-            </div>
-        </div>
-
-    </div>
-    {% else %}
-        <strong>No card sets currently in category.</strong>
-    {% endif %}
 
 
     {% else %}
         The specified flash card set does not exist.
     {% endif %}
+
 {% endblock %}
