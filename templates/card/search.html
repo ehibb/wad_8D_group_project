@@ -1,0 +1,44 @@
+{% extends 'card/base.html' %}
+{% load staticfiles %}
+{% load card_template_tags %}
+
+{% block title_block %}
+    Search
+{% endblock %}
+
+{% block extra_css %}
+	<link rel="stylesheet" href="{% static 'css/search.css' %}" type="text/css" >
+    <script src="{% static "js/searchJS.js" %}" crossorigin="anonymous"></script>
+{% endblock %}
+
+
+{% block body_block %}
+
+    <div class="container">
+
+        <div class="searchbar">
+            <input type="search" id="search-input" placeholder="Search...">
+            <p> Search Type </p>
+            <form action="">
+                <input id="catsearch" type="radio" name="search_type" value="Category"> <label for="catsearch">Category</label>
+                <input id="cardsearch" type="radio" name="search_type" vaule="CardSet"> <label for="cardsearch">Card Set</label>
+            </form>
+        </div>
+
+
+        <div class="listing">
+
+            <p> Results </p>
+            <div class="categories-listing">
+                {% get_category_list  category %}
+            </div>
+
+            <div class="cardset-listing">
+                {% get_cardset_list %}
+            </div>
+
+        </div>
+
+    </div>  
+
+{% endblock %}

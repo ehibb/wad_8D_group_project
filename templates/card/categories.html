@@ -1,0 +1,18 @@
+<ul>
+    
+    {% if categories %}
+        {% for c in categories %}
+            
+            <div class="card">
+                <a href="{% url 'card:show_category' c.slug %}">
+                    <strong><li>{{ c.name }}</li></strong>
+                    <li>Views - {{ c.views }}</li>
+                    <li>Likes - {{ c.likes }} </li>
+                </a>
+            </div>
+
+        {% endfor %}
+    {% else %}
+        <li> <strong> There are no categories present </strong></li>
+    {% endif %}
+</ul>

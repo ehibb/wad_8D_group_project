@@ -1,0 +1,19 @@
+<ul>
+    
+    {% if cardsets %}
+        {% for c in cardsets %}
+            
+            <div class="card">
+                <a href="{% url 'card:card_set' c.slug %}">
+                    <strong><li>{{ c.name }}</li></strong>
+                    <li>Subject - {{ c.subject }}</li>
+                    <li>Author - {{ c.user }}</li>
+                </a>
+            </div>
+
+
+        {% endfor %}
+    {% else %}
+        <li> <strong> There are no cardsets present </strong></li>
+    {% endif %}
+</ul>

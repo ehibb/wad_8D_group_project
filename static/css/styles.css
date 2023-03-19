@@ -1,6 +1,11 @@
 body {
     margin: 0;
     padding: 0;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.bodyblock {
+    margin: 20px;
 }
 
 /** The Nav Bar CSS for Every Page **/
@@ -40,11 +45,11 @@ body {
     grid-column: 4;
 }
 
-.topnavlinks .addcat {
+.topnavlinks .search {
     grid-column: 5;
 }
 
-.topnavlinks .restricted {
+.topnavlinks .addcat {
     grid-column: 6;
 }
 

@@ -9,10 +9,9 @@ from django.utils.decorators import method_decorator
 from django.views import View
 
 
-
 def index(request):
 
-    category_list = Category.objects.order_by('-likes')[:5]
+    category_list = Category.objects.order_by('-views')[:5]
     flash_card_sets = FlashCardSet.objects.order_by('-likes')[:5]
 
     context_dict = {}
@@ -257,7 +256,9 @@ def edit(request):
 
 
 def search(request):
-    return render(request, 'card/search.html')
+    context_dict = {}
+    context_dict["categories"] = None
+    return render(request, 'card/search.html',context=context_dict)
 
 def view_cardsets(request):
     context_dict = {}
@@ -273,7 +274,57 @@ def view_cardsets(request):
 
     return render(request, 'card/view_cardsets.html',context=context_dict)
 
+# Function and Class used in the Search page to deal with searches based on category
+def get_category_list(max_results=0, starts_with=''):
+    category_list = []
+    if starts_with:
+        category_list = Category.objects.filter(name__istartswith=starts_with)
+
+    if max_results > 0:
+        if len(category_list) > max_results:
+            category_list = category_list[:max_results]
+
+    return category_list
+
+class CategorySuggestionView(View):
+    def get(self,request):
+        if 'suggestion' in request.GET:
+            suggestion = request.GET['suggestion']
+        else:
+            suggestion = ''
+        
+        category_list = get_category_list(max_results=8,starts_with=suggestion)
+
+        if len(category_list) == 0:
+            category_list = Category.objects.order_by('-likes')
 
 
+        return render(request, 'card/categories.html', {"categories":category_list})
+    
+
+## Function and Class used in the Search page to deal with searches based on card set
+def get_cardset_list(max_results=0, starts_with=''):
+    cardset_list = []
+    if starts_with:
+        cardset_list = FlashCardSet.objects.filter(name__istartswith=starts_with)
+
+    if max_results > 0:
+        if len(cardset_list) > max_results:
+            cardset_list = cardset_list[:max_results]
+
+    return cardset_list
+
+class CardSetSuggestionView(View):
+    def get(self,request):
+        if 'suggestion' in request.GET:
+            suggestion = request.GET['suggestion']
+        else:
+            suggestion = ''
+        
+        cardset_list = get_cardset_list(max_results=8,starts_with=suggestion)
+
+        if len(cardset_list) == 0:
+            cardset_list = FlashCardSet.objects.order_by('-likes')
 
 
+        return render(request, 'card/cardsets.html', {"cardsets":cardset_list})

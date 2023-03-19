@@ -1,0 +1,55 @@
+
+.listing .card {
+   list-style-type: none;
+   background-color: rgb(158, 219, 240);
+   margin-bottom: 10px;
+   border: 3px solid rgb(128, 179, 196);
+   width: 500px;
+   height: 70px;
+   border-radius: 10px;
+   display: flex;
+   align-items: center;
+   justify-content: center;
+}
+
+.listing .card a {
+    text-decoration: none;
+    color: black;
+    font-family: Arial, Helvetica, sans-serif;
+    text-align: center;
+ }
+
+.listing {
+    font-family: Arial, Helvetica, sans-serif;
+ }
+
+
+.listing ul {
+    padding: 0;
+}
+
+
+.categories-listing {
+    display: block;
+}
+
+.cardset-listing {
+    display: none;
+}
+
+
+
+
+.container {
+    display: grid;
+    align-items: center;
+    justify-content: center;
+    grid-template-rows: auto auto;
+    row-gap: 25px;
+}
+
+#search-input {
+    height: 50px;
+    width: 300px;
+    border-radius: 10px;
+}

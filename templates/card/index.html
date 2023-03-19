@@ -21,15 +21,15 @@
 		</div>
 
 		<div class="box" id="box2">
-			<h2>Most Viewed Flash Card Sets</h2>
-			{% if pages %}
+			<h2>Most Liked Flash Card Sets</h2>
+			{% if flash_card_sets %}
 				<ul>
                 {% for flash_card_set in flash_card_sets %}
                     <li><a href="{% url 'card:card_set' flash_card_set.slug %}">{{ flash_card_set.name }}</a></li>
                 {% endfor %}
 				</ul>
 			{% else %}
-				<strong id="box-center">There are no pages present.</strong>
+				<strong id="box-center">There are no Flash-Cards present.</strong>
 			{% endif %}
 		</div>
 
