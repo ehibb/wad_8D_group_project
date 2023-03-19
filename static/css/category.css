@@ -1,0 +1,110 @@
+.container {
+    display: grid;
+    justify-content: center;
+}
+
+.catInfoBar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    column-gap: 50px;
+}
+
+.container .catInfoBar img {
+    width: 40px;
+    height: 40px;
+}
+
+.socialIcon {
+    display: grid;
+    grid-template-columns: auto auto;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.socialIcon p {
+    margin-left: 5px;
+    font-weight: bold;
+}
+
+.cardsetList {
+    margin-bottom: 30px;
+}
+
+.cardsetList ul {
+    margin-top: 0;
+    list-style-type: none;
+}
+
+.cardsetList li {
+    list-style-type: none;
+}
+
+.cardsetList .cardset {
+    width: 550px;
+    background-color: red;
+    background-color: rgb(158, 219, 240);
+    margin-bottom: 10px;
+    border: 3px solid rgb(128, 179, 196);
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.cardsetList a {
+    text-decoration: none;
+    color: black;
+}
+
+.cardsetList .cardset:hover {
+    background-color: rgb(128, 179, 196);
+}
+
+.addCardSetButton {
+    width: 180px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+    background-color: rgb(158, 219, 240);
+    border: 3px solid rgb(128, 179, 196);
+    color: white;
+    text-decoration: none;
+}
+
+a .addCardSetButton {
+    color: white;
+}
+
+a {
+    text-decoration: none;
+}
+
+.addCardSetButton:hover {
+    background-color: rgb(128, 179, 196);
+}
+ 
+.interactBar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    column-gap: 15px;
+}
+
+
+#like {
+    width: 180px;
+    height: 100%;
+    background-color: rgb(124,252,0);
+    border: 3px solid rgb(114, 230, 2);
+    border-radius: 10px;
+    font-weight: bold;
+}
+
+#like:hover {
+    cursor: pointer;
+}

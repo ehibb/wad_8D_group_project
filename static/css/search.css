@@ -12,6 +12,10 @@
    justify-content: center;
 }
 
+.listing .card:hover {
+    background-color: rgb(128, 179, 196);
+}
+
 .listing .card a {
     text-decoration: none;
     color: black;

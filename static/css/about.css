@@ -1,0 +1,15 @@
+.container {
+    display: grid;
+    justify-content: center;
+    align-items: center;
+    grid-template-rows: auto auto;
+}
+
+ul {
+    padding-top: 0;
+}
+
+p {
+    margin: 0;
+    padding: 0;
+}

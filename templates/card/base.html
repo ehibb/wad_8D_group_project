@@ -22,11 +22,11 @@
 				<a class="home" href="{% url 'card:index' %}">Home</a>
 				<a class="about" href="{% url 'card:about' %}">About</a>
 				<a class="viewcardsets" href="{% url 'card:view_cardsets' %}">View Cardsets</a>
-				<a class="viewcategories" href="">View Categories</a>
+				<a class="viewcategories" href="{% url 'card:view_categories' %}">View Categories</a>
 				<a class="search" href="{% url 'card:search' %}">Search</a>
 				{% if user.is_authenticated %}
-				<a class="addcat" href="{% url 'card:add_category' %}">Add a New Category</a>
-				<a class="mycards" href="{% url 'card:my_cards' %}">My Cards</a>
+				<a class="addcat" href="{% url 'card:add_category' %}">Create Category</a>
+				<a class="mycards" href="{% url 'card:my_cards' %}">My Cardsets</a>
 				{% endif %}
 
 				{% if user.is_authenticated %}

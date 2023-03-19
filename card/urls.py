@@ -24,8 +24,14 @@ urlpatterns = [
     path('search/', views.search, name='search'),
     path('card_set/<slug:flash_card_set_slug>/', views.show_flash_card_set, name='card_set'),
     path('like_cardset/', views.LikeCardSetView.as_view(), name='like_cardset'),
+    path('like_category/',views.LikeCategoryView.as_view(), name="like_category"),
     path('view_cardsets/',views.view_cardsets,name='view_cardsets'),
+    path('view_categories/', views.view_categories,name='view_categories'),
     path('suggestcat/', views.CategorySuggestionView.as_view(), name="suggestcat"),
     path('suggestcard/', views.CardSetSuggestionView.as_view(), name="suggestcard"),
     path('suggestauth/', views.CategorySuggestionView.as_view(), name="suggestauth"),
+    path('view_category/',views.ViewCategoryView.as_view(), name="view_category"),
 ]
+
+# Note - view_category/ is for incrementing the view count of a category,
+# category/ is for viewing the category in the browser

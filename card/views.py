@@ -78,7 +78,7 @@ def show_category(request, category_name_slug):
 
         # Retrieve all of the associated pages.
         # The filter() will return a list of page objects or an empty list.
-        CardSets = FlashCardSet.objects.filter(category=category)
+        CardSets = FlashCardSet.objects.filter(category=category).order_by('-likes')
 
         # Adds our results list to the template context under name pages.
         context_dict['cardsets'] = CardSets
@@ -271,8 +271,20 @@ def view_cardsets(request):
     except FlashCardSet.DoesNotExist:
         print("doesnt exist mate")
 
-
     return render(request, 'card/view_cardsets.html',context=context_dict)
+
+def view_categories(request):
+    context_dict = {}
+
+    try:
+        categories = Category.objects.all()
+        context_dict["categories"] = categories
+    except Category.DoesNotExist:
+        print("doesnt exist mate")
+
+    return render(request, 'card/view_categories.html',context=context_dict)
+
+
 
 # Function and Class used in the Search page to deal with searches based on category
 def get_category_list(max_results=0, starts_with=''):
@@ -302,6 +314,8 @@ class CategorySuggestionView(View):
         return render(request, 'card/categories.html', {"categories":category_list})
     
 
+
+
 ## Function and Class used in the Search page to deal with searches based on card set
 def get_cardset_list(max_results=0, starts_with=''):
     cardset_list = []
@@ -328,3 +342,36 @@ class CardSetSuggestionView(View):
 
 
         return render(request, 'card/cardsets.html', {"cardsets":cardset_list})
+
+
+# Not to be confused with show_category, this is to incremment the view count on a category
+class ViewCategoryView(View):
+
+    def get(self, request):
+        category_name = request.GET['name']
+        try:
+            category = Category.objects.get(name=category_name)
+        except Category.DoesNotExist:
+            return HttpResponse(-1)
+        except ValueError:
+            return HttpResponse(-1)
+        
+        category.views = category.views + 1
+        category.save()
+        return HttpResponse(category.views)
+    
+class LikeCategoryView(View):
+
+    @method_decorator(login_required)
+    def get(self, request):
+        cat_name = request.GET['name']
+        try:
+            category = Category.objects.get(name=cat_name)
+        except Category.DoesNotExist:
+            return HttpResponse(-1)
+        except ValueError:
+            return HttpResponse(-1)
+        
+        category.likes = category.likes + 1
+        category.save()
+        return HttpResponse(category.likes)

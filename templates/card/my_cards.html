@@ -12,6 +12,8 @@
 
 {% block body_block %}
 
+    <h1>Your Flash Card Sets</h1>
+
     <div class="container" >
         {% for cardset in flash_card_sets %}
         <a href="{% url 'card:card_set' cardset.slug %}">

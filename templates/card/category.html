@@ -9,21 +9,56 @@
     {% endif %}
 {% endblock %}
 
-{% block body_block %}
-    {% if category %}
-        <h2>{{ category.name }}</h2>
-    {% if cardsets %}
-    <ul>
-		{% for cardset in cardsets %}
-		<li><a href="{% url 'card:card_set' cardset.slug %}">{{ cardset.name }}</a></li>
-		{% endfor %}
-	</ul>
-    {% else %}
-        <strong>No card sets currently in category.</strong>
-    {% endif %}
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'css/category.css' %}" type="text/css" >
+    <script src="{% static "js/category.js" %}" crossorigin="anonymous"></script>
+{% endblock %}
 
-    <a href="{% url 'card:add_cardset' category.slug %}">Add Card Set</a><br/>
-    {% else %}
-        The specified category does not exist.
-    {% endif %}
+{% block body_block %}
+    <div class="container">
+
+        {% if category %}
+
+            <h1 id="catName" data-catname="{{ category.name }}">Category - {{ category.name }}</h1>
+            
+            <div class="catInfoBar">
+                <div class="socialIcon"><img src="{% static 'images/view-icon.png' %}" alt="View Icon"> <p id="catViewCount"> {{ category.views }}</p></div>
+                <div class="socialIcon"><img src="{% static 'images/heart-icon.png' %}" alt="Like Icon"> <p id="catLikeCount"> {{ category.likes }}</p></div>
+            </div>
+
+            {% if cardsets %}
+                <div class="cardsetList">
+
+                        {% for cardset in cardsets %}
+                            <div class="cardset">
+                                <a href="{% url 'card:card_set' cardset.slug %}">
+                                    <li><strong>{{ cardset.name }}</strong></li>
+                                    <li>Author - {{ cardset.user }}</li>
+                                    <li>Likes - {{ cardset.likes }}</li>
+                                </a>
+                            </div>
+                        {% endfor %}
+                        
+                </div>
+            {% else %}
+                <strong>No card sets currently in category.</strong>
+            {% endif %}
+
+            <div class="interactBar">
+                
+                {% if user.is_authenticated %}
+                    
+                    <button id="like" class="toolbutton" data-catname="{{ category.name }}"> Like This Category </button>
+                    <a href="{% url 'card:add_cardset' category.slug %}">
+                        <div class="addCardSetButton">Add Card Set</div>
+                    </a>
+                        
+                {% endif %}
+            </div>
+
+        {% else %}
+            The specified category does not exist.
+        {% endif %}
+
+    </div>
 {% endblock %}

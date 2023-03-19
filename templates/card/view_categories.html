@@ -1,0 +1,33 @@
+{% extends 'card/base.html' %}
+{% load staticfiles %}
+
+{% block title_block %}
+    View Categories
+{% endblock %}
+
+{% block extra_css %}
+	<link rel="stylesheet" href="{% static 'css/mycards.css' %}" type="text/css" >
+    <script src="{% static "js/mycardsJS.js" %}" crossorigin="anonymous"></script>
+{% endblock %}
+
+{% block body_block %}
+
+    <h1>View Categories</h1>
+
+    <div class="container" >
+        {% for category in categories %}
+        <a href="{% url 'card:show_category' category.slug %}">
+            <div class="cardset">
+                
+                    <ul>
+                        <li class="cardsetname"> {{ category.name }} </li>
+                        <li> {{ category.views }} Views </li>
+                        <li> {{ category.likes }} Likes </li>
+                    </ul>
+                
+            </div>
+        </a>  
+        {% endfor %}
+    </div>
+
+{% endblock %}

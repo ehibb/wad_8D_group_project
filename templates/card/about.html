@@ -5,10 +5,22 @@
     About Page
 {% endblock %}
 
+{% block extra_css %}
+	<link rel="stylesheet" href="{% static 'css/about.css' %}" type="text/css" >
+{% endblock %}
+
 {% block body_block %}
-    <div class="top">
-		<h1>Flash Card</h1>
-        <strong>Here is the about page.</strong><br />
+    <div class="container">
+		<h1>Flash Card Master</h1>
+        <h2>About Us</h2>
+        <p> Our site allows users to: </p>
+            <ul>
+                <li> View Flash Cards </li>
+                <li> Create Flash Cards </li>
+                <li> Explore Uploaded Content </li>
+                <li> Test themselves on their own/other user's cards </li>
+            </ul>
+        <p> with the goal of enhancing their knowledge on various different subjects over various different cards. </p>
     </div>
 {% endblock %}
 
