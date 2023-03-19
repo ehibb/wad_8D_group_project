@@ -1,5 +1,6 @@
 $(document).ready(function() {
 
+    // Code to enable functionality of the like button on the CardSet Page
     $('#like').click(function () {
         var cardsetname;
         cardsetname = $(this).attr('data-cardsetname');
@@ -17,11 +18,6 @@ $(document).ready(function() {
     })
         
 
-
-
-
-
-    
     // When the page loads set the total number of cards display to the correct value
     $(function() {
         var numCards = $('.slider-inner').children().length;
@@ -63,7 +59,6 @@ $(document).ready(function() {
     {
         $(this).toggleClass('classShadow');
     });
-
 
     // Code that shows the next Card when Forward/Backward button is hit. Also alters current Card number.
     $('.forward').click(function() {

@@ -219,8 +219,21 @@ def account(request):
     return render(request, 'card/account.html')
 
 
+@login_required
 def my_cards(request):
-    return render(request, 'card/my_cards.html')
+
+    context_dict = {}
+    
+    try:
+        card_sets = FlashCardSet.objects.filter(user=request.user)
+        context_dict["flash_card_sets"] = card_sets
+        context_dict['user'] = request.user
+
+    except FlashCardSet.DoesNotExist:
+        print("doesnt exist mate")
+
+
+    return render(request, 'card/my_cards.html',context=context_dict)
 
 
 def comment(request):
@@ -245,6 +258,20 @@ def edit(request):
 
 def search(request):
     return render(request, 'card/search.html')
+
+def view_cardsets(request):
+    context_dict = {}
+    
+    try:
+        card_sets = FlashCardSet.objects.filter()
+        context_dict["flash_card_sets"] = card_sets
+        context_dict['user'] = request.user
+
+    except FlashCardSet.DoesNotExist:
+        print("doesnt exist mate")
+
+
+    return render(request, 'card/view_cardsets.html',context=context_dict)
 
 
 

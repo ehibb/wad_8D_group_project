@@ -10,7 +10,6 @@
 		</title>
 		<link rel="stylesheet" href="{% static 'css/styles.css' %}" type="text/css" />
 		<script src="{% static "js/jquery-3.3.1.min.js" %}" crossorigin="anonymous"></script>
-		<script src="{% static "js/cardJS.js" %}" crossorigin="anonymous"></script>
  		{% block extra_css %}
 		{% endblock %}
 	</head>
@@ -20,18 +19,21 @@
 		<div class="topnav">
 			<img id = "float-left" src="{% static 'images/flashcard.png' %}" alt="Picture of FlashCard" />
 			<div class="topnavlinks">
-				<a class="home" href="{% url 'card:index' %}">Home</a></li>
-				<a class="about" href="{% url 'card:about' %}">About</a></li>
+				<a class="home" href="{% url 'card:index' %}">Home</a>
+				<a class="about" href="{% url 'card:about' %}">About</a>
+				<a class="viewcardsets" href="{% url 'card:view_cardsets' %}">View Cardsets</a>
+				<a class="viewcategories" href="">View Categories</a>
 				{% if user.is_authenticated %}
-				<a class="addcat" href="{% url 'card:add_category' %}">Add a New Category</a></li>
-				<a class="restricted" href="{% url 'card:restricted' %}">Restricted Page</a></li>
+				<a class="addcat" href="{% url 'card:add_category' %}">Add a New Category</a>
+				<a class="restricted" href="{% url 'card:restricted' %}">Restricted Page</a>
+				<a class="mycards" href="{% url 'card:my_cards' %}">My Cards</a>
 				{% endif %}
 
 				{% if user.is_authenticated %}
-				<a class="logout" href="{% url 'card:logout' %}">Logout</a></li>
+				<a class="logout" href="{% url 'card:logout' %}">Logout</a>
 				{% else %}
-				<a class="signin" href="{% url 'card:register' %}">Sign Up</a></li>
-				<a class="login" href="{% url 'card:login' %}">Login</a></li>
+				<a class="signin" href="{% url 'card:register' %}">Sign Up</a>
+				<a class="login" href="{% url 'card:login' %}">Login</a>
 				{% endif %}	
 			</div>
 		</div>

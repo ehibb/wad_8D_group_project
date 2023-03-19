@@ -1,0 +1,39 @@
+.container {
+    display: grid;
+    margin-top: 50px;
+    grid-template-columns: auto auto;
+    justify-content: center;
+    column-gap: 200px;
+    row-gap:75px;
+}
+
+.cardset {
+    background-color: rgb(158, 219, 240);
+    width: 300px;
+    height: 200px;
+    border-radius: 15px;
+    display: grid;
+    align-items: center;
+    border: 3px solid black;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 20px;
+    padding: 0px 20px 20px 20px;
+}
+
+.cardsetname {
+    font-weight: bolder;
+    font-size: 28px;
+}
+
+.cardset ul {
+    list-style-type: none;    
+}
+
+.cardset ul li {
+    margin-bottom: 5px;
+}
+
+a {
+    text-decoration: none;
+    color: black;
+}

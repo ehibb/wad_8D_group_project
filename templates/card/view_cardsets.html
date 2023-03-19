@@ -2,7 +2,7 @@
 {% load staticfiles %}
 
 {% block title_block %}
-    My Cards
+    View Cardsets
 {% endblock %}
 
 {% block extra_css %}
@@ -20,11 +20,7 @@
                     <ul>
                         <li class="cardsetname"> {{ cardset.name }} </li>
                         <li> Subject - {{ cardset.subject }} </li>
-                        {% if cardset.author.name == user.name %}
-                        <li> Author -  You </li>
-                        {% else %}
                         <li> Author - {{ cardset.user }} </li>
-                        {% endif %}
                         <li> {{ cardset.number_of_questions }} Questions </li>
                         <li> {{ cardset.likes }} Likes </li>
                     </ul>

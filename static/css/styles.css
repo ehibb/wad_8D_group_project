@@ -18,7 +18,7 @@ body {
 
 .topnavlinks {
     display: grid;
-    grid-template-columns: 100px 100px 100px 100px auto 100px 100px;
+    grid-template-columns: 100px 100px 100px 100px 100px 100px 100px auto 100px 100px;
     height: 100%;
     overflow: hidden;
 }
@@ -32,25 +32,38 @@ body {
     grid-column: 2;
 }
 
-.topnavlinks .addcat {
+.topnavlinks .viewcardsets {
     grid-column: 3;
 }
 
-.topnavlinks .restricted {
+.topnavlinks .viewcateogires {
     grid-column: 4;
 }
 
-.topnavlinks .logout {
+.topnavlinks .addcat {
+    grid-column: 5;
+}
+
+.topnavlinks .restricted {
+    grid-column: 6;
+}
+
+.topnavlinks .mycards {
     grid-column: 7;
 }
 
 .topnavlinks .signin {
-    grid-column: 6;
+    grid-column: 9;
+}
+
+.topnavlinks .logout {
+    grid-column: 10;
 }
 
 .topnavlinks .login {
-    grid-column: 7;
+    grid-column: 10;
 }
+
 
 .topnav a {
     color: #f2f2f2;
