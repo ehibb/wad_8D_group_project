@@ -1,3 +1,74 @@
+body {
+    margin: 0;
+    padding: 0;
+}
+
+/** The Nav Bar CSS for Every Page **/
+
+.topnav {
+    overflow: hidden;
+    background-color: rgb(46, 47, 48);
+    height: 60px;
+}
+
+.topnav img {
+    height: 40px;
+    width: 40px;
+}
+
+.topnavlinks {
+    display: grid;
+    grid-template-columns: 100px 100px 100px 100px auto 100px 100px;
+    height: 100%;
+    overflow: hidden;
+}
+
+/** Gives each link a position in the navbar, this is mainly to ensure that the "Login" Controls are always on the far right of the Nav Bar **/
+.topnavlinks .home {
+    grid-column: 1;
+}
+
+.topnavlinks .about {
+    grid-column: 2;
+}
+
+.topnavlinks .addcat {
+    grid-column: 3;
+}
+
+.topnavlinks .restricted {
+    grid-column: 4;
+}
+
+.topnavlinks .logout {
+    grid-column: 7;
+}
+
+.topnavlinks .signin {
+    grid-column: 6;
+}
+
+.topnavlinks .login {
+    grid-column: 7;
+}
+
+.topnav a {
+    color: #f2f2f2;
+    text-align: center;
+    text-decoration: none;
+    font-size: 17px;
+    display: grid;
+    align-items: center;
+}
+
+.topnav a:hover {
+    background-color: #f2f2f2;
+    color: black;
+}
+/** ----------------------------------- **/
+
+
+
 html {
   overflow: scroll;
 }
@@ -9,36 +80,16 @@ img {
 	float: left;
 }
 
-h1 {
-    position: absolute;
-    top: 2%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    margin: 0px;
-}
-
-strong {
-    position: absolute;
-    top: 4%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    margin-top: 20px;
-}
-
 hr {
 	top: 10%;
 	clear: both;
 }
 
-
-.top {
-	height:80px;
-	border-bottom: solid black;
-}
 .middle{
 	position: relative;
     margin-left: 30%;
 }
+
 .box{
 	position: relative;
 	padding: 20px;
@@ -49,10 +100,7 @@ hr {
 	float: left;
 
 }
-.top {
-	height:80px;
-	border-bottom: solid black;
-}
+
 
 /*
 box1:Most Liked Categories
