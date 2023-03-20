@@ -249,10 +249,6 @@ def test(request):
     return render(request, 'card/test.html')
 
 
-def create(request):
-    return render(request, 'card/create.html')
-
-
 def help(request):
     return render(request, 'card/help.html')
 
