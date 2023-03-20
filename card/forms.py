@@ -14,6 +14,12 @@ class CategoryForm(forms.ModelForm):
         model = Category
         fields = ('name',)
 
+def get_choices():
+    choices = []
+    for category in Category.objects.all():
+        choices.append((str(category), str(category)))
+    return choices
+
 
 class FlashCardSetForm(forms.ModelForm):  # Which is PageFrom before
     # Foreign keys not required here
@@ -30,6 +36,9 @@ class FlashCardSetForm(forms.ModelForm):  # Which is PageFrom before
         exclude = ['User']
         fields = ('name', 'subject')
         
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args,**kwargs)
+        self.fields['subject'].choices = get_choices()
 """
 FlashCardForm should take question text and answer text
 Foreign keys not needed
