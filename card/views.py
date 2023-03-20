@@ -120,29 +120,27 @@ def add_category(request):
     return render(request, 'card/add_category.html', {'form': form})
 
 
-def add_cardset(request, category_name_slug):
+def add_cardset(request, category_name_slug=""):
     try:
         category = Category.objects.get(slug=category_name_slug)
     except:
         category = None
 
-    # You cannot add a page to a Category that does not exist... DM
-    if category is None:
-        return redirect('/card/')
-
     form = FlashCardSetForm()
 
     if request.method == 'POST':
         form = FlashCardSetForm(request.POST)
-
-        if form.is_valid():
+        if form.is_valid():           
+            flash_card_set = form.save(commit=False)
+            flash_card_set.user = request.user
+            flash_card_set.category = Category.objects.get(name=form['subject'].value())
+            flash_card_set.save()
+            
             if category:
-                flash_card_set = form.save(commit=False)
-                flash_card_set.user = request.user
-                flash_card_set.category = category
-                flash_card_set.save()
-
                 return redirect(reverse('card:show_category', kwargs={'category_name_slug': category_name_slug}))
+            else:
+                return redirect(reverse('card:index'))
+                
         else:
             print(form.errors)
 

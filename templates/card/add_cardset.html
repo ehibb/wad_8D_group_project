@@ -7,21 +7,37 @@
 
 {% block body_block %}
     <h2>Add A Card Set</h2>
-    <div>
-        <form id="category_form" method="post" action="/card/category/{{ category.slug }}/add_cardset/">
-            {% csrf_token %}
-            {% for hidden in form.hidden_fields %}
-                {{ hidden }}
-            {% endfor %}
-            {% for field in form.visible_fields %}
-                {{ field.errors }}
-                {{ field.help_text }}
-                {{ field }}
-            {% endfor %}
-            <input type="submit" name="submit" value="Add Page"/>
-        </form>
-    </div>
-
+	{% if category %}
+		<div>
+			<form id="category_form" method="post" action="/card/category/{{ category.slug }}/add_cardset/">
+				{% csrf_token %}
+				{% for hidden in form.hidden_fields %}
+					{{ hidden }}
+				{% endfor %}
+				{% for field in form.visible_fields %}
+					{{ field.errors }}
+					{{ field.help_text }}
+					{{ field }}
+				{% endfor %}
+				<input type="submit" name="submit" value="Add Page"/>
+			</form>
+		</div>
+	{% else %}
+		<div>
+			<form id="category_form" method="post" action="/card/add_cardset/">
+				{% csrf_token %}
+				{% for hidden in form.hidden_fields %}
+					{{ hidden }}
+				{% endfor %}
+				{% for field in form.visible_fields %}
+					{{ field.errors }}
+					{{ field.help_text }}
+					{{ field }}
+				{% endfor %}
+				<input type="submit" name="submit" value="Add Page"/>
+			</form>
+		</div>
+	{% endif %}
     <div class="help">
         <a href="{% url 'card:help' %}">How to make your Card Set?</a>
     </div>
