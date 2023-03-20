@@ -18,7 +18,6 @@ urlpatterns = [
     path('my_cards/', views.my_cards, name='my_cards'),
     path('my_cards/comment/', views.comment, name='comment'),
     path('test/', views.test, name='test'),
-    path('create/', views.create, name='create'),
     path('create/help/', views.help, name='help'),
     path('create/edit/', views.edit, name='edit'),
     path('search/', views.search, name='search'),
