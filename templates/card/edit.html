@@ -1,0 +1,52 @@
+{% extends 'card/base.html' %}
+{% load staticfiles %}
+
+{% block title_block %}
+    {% if flash_card_set %}
+        {{ flash_card_set }}
+    {% else %}
+        Unknown category
+    {% endif %}
+{% endblock %}
+
+{% block extra_css %}
+	<link rel="stylesheet" href="{% static 'css/edit.css' %}" type="text/css" >
+{% endblock %}
+
+{% block body_block %}
+
+    <h1 id="CardSetName">Editing Card Set - {{ flash_card_set.name }}</h1>
+
+    <div class="container">
+
+        
+       
+        <div class="existingQuestions">
+            <strong> Existing Cards - </strong>
+            <ul>
+            {% for card in flash_cards %}
+                    <div class="qaCombo">
+                        <p>Question - {{ card.question_text }}</p>
+                        <p>Answer - {{ card.answer_text }}</p>
+                    </div>
+            {% endfor %}
+            </ul>
+        </div>
+
+    
+        <form id="flashcardform" method="post" action="/card/edit_cardset/{{ flash_card_set.slug }}/">
+            
+            {% csrf_token %}
+            {% for field in form.visible_fields %}
+                <div class="entryarea">
+                    {{ field }}
+                    {{ field.help_text }}
+                </div>
+            {% endfor %}
+    
+            <input type="submit" name="submit" value="Create Flash Card">
+        </form>
+    
+    </div>
+    
+{% endblock %}

@@ -15,8 +15,10 @@ class CategoryForm(forms.ModelForm):
         fields = ('name',)
 
 
-class FlashCardSetForm(forms.ModelForm):
+class FlashCardSetForm(forms.ModelForm):  # Which is PageFrom before
     # Foreign keys not required here
+    
+    
     name = forms.CharField(max_length=FlashCardSet.NAME_MAX_LENGTH, help_text="Please enter the title.")
     subject = forms.ChoiceField(choices = FlashCardSet.SUBJECT_CHOICES)
     likes = forms.IntegerField(widget=forms.HiddenInput(), initial=0)
@@ -32,13 +34,15 @@ class FlashCardSetForm(forms.ModelForm):
 FlashCardForm should take question text and answer text
 Foreign keys not needed
 """
-class FlashCardForm(forms.ModelForm):
-    question_text = forms.CharField(max_length=FlashCard.QUESTION_MAX_LENGTH)
-    answer_text = forms.CharField(max_length=FlashCard.ANSWER_MAX_LENGTH)
+class FlashCardForm(forms.ModelForm):  # Modify here
+
+    question_text = forms.CharField(max_length=500, help_text="Please enter the Flash Card Question")
+    answer_text = forms.CharField(max_length=500, help_text="Please enter the Flash Card Answer")
 
     class Meta:
         model = FlashCard
-        fields = ('question_text', 'answer_text')
+        fields = ('question_text','answer_text')
+    
 
 
 """
@@ -60,4 +64,3 @@ class UserProfileForm(forms.ModelForm):
     class Meta:
         model = UserProfile
         fields = ('website', 'picture',)
-

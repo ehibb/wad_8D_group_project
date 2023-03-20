@@ -31,6 +31,7 @@ urlpatterns = [
     path('suggestcard/', views.CardSetSuggestionView.as_view(), name="suggestcard"),
     path('suggestauth/', views.CategorySuggestionView.as_view(), name="suggestauth"),
     path('view_category/',views.ViewCategoryView.as_view(), name="view_category"),
+    path('edit_cardset/<slug:flash_card_set_slug>/', views.edit, name="edit_cardset")
 ]
 
 # Note - view_category/ is for incrementing the view count of a category,

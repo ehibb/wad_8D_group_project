@@ -1,0 +1,18 @@
+
+.qaCombo {
+    background-color: rgb(255, 216, 23);
+    padding: 10px;
+    border-radius: 10px;
+    margin-bottom: 15px;
+    width: 300px;
+    border: 3px solid black;
+}
+
+.container {
+    display: grid;
+    grid-template-columns: auto auto;
+}
+
+#flashcardform .entryarea {
+    margin-bottom: 10px;
+}

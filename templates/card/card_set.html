@@ -20,6 +20,7 @@
     {% if flash_card_set %}
             <div class="title_container">
                 <h1 id="title">{{ flash_card_set.name }}</h1>
+
                 <div class="authorblock">
                     {% if isCreator %}
                         <h2 id="author"> Author - You </h2>
@@ -29,9 +30,9 @@
                 </div>
                 {% if isCreator %}
                     {% if flash_cards %}
-                        <button id="edit" class="toolbutton"> Edit </button>
+                        <a href="{% url 'card:edit_cardset' flash_card_set.slug %}"><button id="edit" class="toolbutton"> Edit </button></a>
                     {% else %}
-                        <button id="edit" class="toolbutton"> Create </button>
+                        <a href="{% url 'card:edit_cardset' flash_card_set.slug %}"><button id="edit" class="toolbutton"> Create </button></a>
                     {% endif %}
                 {% endif %}
                 <button id="test" class="toolbutton"> Test your Knowledge! </button>
