@@ -31,9 +31,9 @@ def show_flash_card_set(request, flash_card_set_slug):
     try:
         card_set = FlashCardSet.objects.get(slug=flash_card_set_slug)
         
-        cards = FlashCard.objects.filter(flash_card_set=card_set)
+        cards = FlashCard.objects.filter(flash_card_set = card_set)
 
-        comments = Comment.objects.filter(flash_card_set=card_set)
+        comments = Comment.objects.filter(flash_card_set = card_set)
         
         context_dict['flash_card_set'] = card_set
         context_dict['flash_cards'] = cards
@@ -127,25 +127,23 @@ def add_cardset(request, category_name_slug):
     if category is None:
         return redirect('/card/')
 
-    form1 = FlashCardSetForm()
-    form2 = FlashCardForm()
+    form = FlashCardSetForm()
 
     if request.method == 'POST':
-        form1 = FlashCardSetForm(request.POST, prefix='form1')
-        form2 = FlashCardForm(request.POST, prefix='form2')
+        form = FlashCardSetForm(request.POST)
 
-        if form1.is_valid():
+        if form.is_valid():
             if category:
-                flash_card_set = form1.save(commit=False)
+                flash_card_set = form.save(commit=False)
                 flash_card_set.user = request.user
                 flash_card_set.category = category
                 flash_card_set.save()
 
                 return redirect(reverse('card:show_category', kwargs={'category_name_slug': category_name_slug}))
         else:
-            print(form1.errors)
+            print(form.errors)
 
-    context_dict = {'form1': form1, 'form2': form2, 'category': category}
+    context_dict = {'form': form, 'category': category}
     return render(request, 'card/add_cardset.html', context=context_dict)
 
 
@@ -257,8 +255,48 @@ def help(request):
     return render(request, 'card/help.html')
 
 
-def edit(request):
-    return render(request, 'card/edit.html')
+def edit(request, flash_card_set_slug):
+    context_dict = {}
+
+    try:
+        cardset = FlashCardSet.objects.get(slug=flash_card_set_slug)
+    except:
+        cardset = None
+
+    # You cannot edit a cardset that does not exist
+    if cardset is None:
+        return redirect('/card/')
+
+    # You cannot edit a cardset that is not yours
+    if cardset.user != request.user:
+        return redirect('/card/')
+
+    flashcards = FlashCard.objects.filter(flash_card_set=cardset)
+    print(flashcards)
+
+    context_dict["flash_card_set"] = cardset
+    context_dict["flash_cards"] = flashcards
+
+    form = FlashCardForm()
+
+    if request.method == "POST":
+        form = FlashCardForm(request.POST)
+
+        if form.is_valid():
+            if cardset:
+                flashcard = form.save(commit=False)
+                flashcard.flash_card_set = cardset
+                cardset.number_of_questions += 1
+                flashcard.save()
+                
+                return redirect(reverse('card:card_set',kwargs={'flash_card_set_slug':flash_card_set_slug}))
+        
+        else:
+            print(form.errors)
+    
+    context_dict["form"] = form
+
+    return render(request, 'card/edit.html', context=context_dict)
 
 
 def search(request):
