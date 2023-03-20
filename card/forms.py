@@ -33,8 +33,8 @@ FlashCardForm should take question text and answer text
 Foreign keys not needed
 """
 class FlashCardForm(forms.ModelForm):
-    question_text = forms.CharField(max_length=FlashCard.QUESTION_MAX_LENGTH, help_text="Please enter the question.")
-    answer_text = forms.CharField(max_length=FlashCard.ANSWER_MAX_LENGTH, help_text="Please enter the answer.")
+    question_text = forms.CharField(max_length=FlashCard.QUESTION_MAX_LENGTH)
+    answer_text = forms.CharField(max_length=FlashCard.ANSWER_MAX_LENGTH)
 
     class Meta:
         model = FlashCard

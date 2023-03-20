@@ -10,24 +10,16 @@
     <div>
         <form id="form1" method="post" action="/card/category/{{ category.slug }}/add_cardset/">
             {% csrf_token %}
-            {{ form1 }}
-            {% for hidden in form.hidden_fields %}
+            {% for hidden in form1.hidden_fields %}
                 {{ hidden }}
             {% endfor %}
-            {% for field in form.visible_fields %}
+            {% for field in form1.visible_fields %}
                 {{ field.errors }}
                 {{ field.help_text }}
                 {{ field }}
             {% endfor %}
-            <input type="submit" name="submit" value="Add Card Set"/>
-        </form>
-    </div>
-
-     <div>
-        <form id="form2" method="post" action="/card/category/{{ category.slug }}/add_cardset/">
-            {% csrf_token %}
             {{ form2 }}
-            <input type="submit" name="submit_form2" value="Add FlashCard"/>
+            <input type="submit" name="submit" value="Add Card Set"/>
         </form>
     </div>
 {% endblock %}
