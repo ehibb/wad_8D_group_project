@@ -2,48 +2,63 @@
 {% load staticfiles %}
 
 {% block title_block %}
-    Flash Card Master - HomePage
+    Homepage
 {% endblock %}
 
 {% block body_block %}
+    <header class="jumbotron jumbotron-fluid text-black text-center mb-5">
+        <div class="container">
+            <br>
+            <br>
+            <h1 class="display-4">Flash Card Master</h1>
+            <br>
+            <p class="lead">Learn and test your knowledge with flash cards!</p>
+            <br>
+            <br>
+        </div>
+    </header>
 
-	<h1>Home</h1>
-
-	<div class="middle">
-		<div class="box" id="box1">
-			<h2>Most Viewed Categories</h2>
-			{% if categories %}
-				<ul>
-					{% for category in categories %}
-					<li><a href="{% url 'card:show_category' category.slug %}">{{ category.name }}</a></li>
-					{% endfor %}
-				</ul>
-			{% else %}
-				<strong id="box-center">There are no categories present.</strong>
-			{% endif %}
-		</div>
-
-		<div class="box" id="box2">
-			<h2>Most Liked Flash Card Sets</h2>
-			{% if flash_card_sets %}
-				<ul>
-                {% for flash_card_set in flash_card_sets %}
-                    <li><a href="{% url 'card:card_set' flash_card_set.slug %}">{{ flash_card_set.name }}</a></li>
-                {% endfor %}
-				</ul>
-			{% else %}
-				<strong id="box-center">There are no Flash-Cards present.</strong>
-			{% endif %}
-		</div>
-
-		<div class="box" id="box3">
-			<h2>Head 3</h2>
-			<p>This is head three</p>
-		</div>
-
-		<div class="box" id="box4">
-			<h2>Head 4</h2>
-			<p>This is head four</p>
-		</div>
-	</div>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4 mb-4">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <h5 class="card-title"><strong>View Flash Cards</strong></h5>
+                        <p class="card-text">Explore a wide range of flash cards and learn from them.</p>
+                    </div>
+                    <div class="card-footer">
+                        <a href="{% url 'card:view_cardsets' %}" class="btn btn-primary">View Cards</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 mb-4">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <h5 class="card-title"><strong>Create Flash Cards</strong></h5>
+                        <p class="card-text">Create your own flash cards and share them with others.</p>
+                    </div>
+                    <div class="card-footer">
+                        {% if user.is_authenticated %}
+                            <a href="{% url 'card:add_cardset' %}" class="btn btn-primary">Create Cards</a>
+                        {% else %}
+                            <p class="card-text">You must login to create cards</p>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 mb-4">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <h5 class="card-title"><strong>Test Your Knowledge</strong></h5>
+                        <p class="card-text">Take quizzes using your own or others' flash cards to test your
+                            knowledge.</p>
+                    </div>
+                    <div class="card-footer">
+                        <a href="{% url 'card:test' %}" class="btn btn-primary">Start Test</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 {% endblock %}
+

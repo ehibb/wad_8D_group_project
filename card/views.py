@@ -4,7 +4,7 @@ from django.urls import reverse
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from .models import Category, FlashCardSet, FlashCard
-from .forms import CategoryForm, FlashCardSetForm, UserForm, UserProfileForm, Comment, FlashCardForm
+from .forms import CategoryForm, FlashCardSetForm, UserForm, Comment, FlashCardForm
 from django.utils.decorators import method_decorator
 from django.views import View
 
@@ -117,66 +117,57 @@ def add_category(request):
     return render(request, 'card/add_category.html', {'form': form})
 
 
-def add_cardset(request, category_name_slug):
+def add_cardset(request, category_name_slug=""):
     try:
         category = Category.objects.get(slug=category_name_slug)
     except:
         category = None
 
-    # You cannot add a page to a Category that does not exist... DM
-    if category is None:
-        return redirect('/card/')
-
-    form = FlashCardSetForm()
+    form = FlashCardSetForm(category_name_slug=category_name_slug)
 
     if request.method == 'POST':
-        form = FlashCardSetForm(request.POST)
-
+        form = FlashCardSetForm(request.POST, category_name_slug=category_name_slug)
         if form.is_valid():
-            if category:
-                flash_card_set = form.save(commit=False)
-                flash_card_set.user = request.user
-                flash_card_set.category = category
-                flash_card_set.save()
+            flash_card_set = form.save(commit=False)
+            flash_card_set.user = request.user
 
+            if category:
+                flash_card_set.category = category
+                flash_card_set.subject = category.name
+                flash_card_set.save()
                 return redirect(reverse('card:show_category', kwargs={'category_name_slug': category_name_slug}))
+            else:
+                flash_card_set.category = Category.objects.get(name=form['subject'].value())
+                flash_card_set.save()
+                return redirect(reverse('card:index'))
+
         else:
             print(form.errors)
 
     context_dict = {'form': form, 'category': category}
     return render(request, 'card/add_cardset.html', context=context_dict)
 
-
 def register(request):
     registered = False
 
     if request.method == 'POST':
         user_form = UserForm(request.POST)
-        profile_form = UserProfileForm(request.POST)
 
-        if user_form.is_valid() and profile_form.is_valid():
+
+        if user_form.is_valid():
             user = user_form.save()
             user.set_password(user.password)
             user.save()
 
-            profile = profile_form.save(commit=False)
-            profile.user = user
-
-            if 'picture' in request.FILES:
-                profile.picture = request.FILES['picture']
-
-            profile.save()
             registered = True
         else:
-            print(user_form.errors, profile_form.errors)
+            print(user_form.errors)
     else:
         user_form = UserForm()
-        profile_form = UserProfileForm()
 
     return render(request,
                   'card/register.html',
                   context={'user_form': user_form,
-                           'profile_form': profile_form,
                            'registered': registered})
 
 

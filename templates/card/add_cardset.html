@@ -6,25 +6,49 @@
 {% endblock %}
 
 {% block body_block %}
-    <h2>Add A Card Set</h2>
-    <div>
-        <form id="category_form" method="post" action="/card/category/{{ category.slug }}/add_cardset/">
-            {% csrf_token %}
-            {% for hidden in form.hidden_fields %}
-                {{ hidden }}
-            {% endfor %}
-            {% for field in form.visible_fields %}
-                {{ field.errors }}
-                {{ field.help_text }}
-                {{ field }}
-            {% endfor %}
-            <input type="submit" name="submit" value="Add Page"/>
-        </form>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 mx-auto">
+                <h2 class="text-center my-4">Add A Card Set</h2>
+                {% if category %}
+                    <form id="category_form" method="post" action="/card/category/{{ category.slug }}/add_cardset/">
+                        {% csrf_token %}
+                        {% for hidden in form.hidden_fields %}
+                            {{ hidden }}
+                        {% endfor %}
+                        {% for field in form.visible_fields %}
+                            <div class="mb-3">
+                                <label for="{{ field.auto_id }}" class="form-label">{{ field.label }}</label>
+                                {{ field }}
+                            </div>
+                        {% endfor %}
+                        <button type="submit" name="submit" class="btn btn-primary">Add Page</button>
+                    </form>
+                {% else %}
+                    <form id="category_form" method="post" action="/card/add_cardset/">
+                        {% csrf_token %}
+                        {% for hidden in form.hidden_fields %}
+                            {{ hidden }}
+                        {% endfor %}
+                        {% for field in form.visible_fields %}
+                            <div class="mb-3">
+                                <label for="{{ field.auto_id }}" class="form-label">{{ field.label }}</label>
+                                {{ field }}
+                            </div>
+                        {% endfor %}
+                        <button type="submit" name="submit" class="btn btn-primary">Add Page</button>
+                    </form>
+                {% endif %}
+                <div class="help text-center mt-4">
+                    <a href="{% url 'card:help' %}" class="btn btn-outline-secondary">How to make your Card Set?</a>
+                </div>
+            </div>
+        </div>
     </div>
 
-    <div class="help">
-        <a href="{% url 'card:help' %}">How to make your Card Set?</a>
-    </div>
+
+
+
+
 {% endblock %}
-
-
