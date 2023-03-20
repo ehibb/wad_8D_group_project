@@ -126,19 +126,22 @@ def add_cardset(request, category_name_slug=""):
     except:
         category = None
 
-    form = FlashCardSetForm()
+    form = FlashCardSetForm(category_name_slug=category_name_slug)
 
     if request.method == 'POST':
-        form = FlashCardSetForm(request.POST)
+        form = FlashCardSetForm(request.POST, category_name_slug=category_name_slug)
         if form.is_valid():           
             flash_card_set = form.save(commit=False)
             flash_card_set.user = request.user
-            flash_card_set.category = Category.objects.get(name=form['subject'].value())
-            flash_card_set.save()
             
             if category:
+                flash_card_set.category = category
+                flash_card_set.subject = category.name
+                flash_card_set.save()
                 return redirect(reverse('card:show_category', kwargs={'category_name_slug': category_name_slug}))
             else:
+                flash_card_set.category = Category.objects.get(name=form['subject'].value())
+                flash_card_set.save()
                 return redirect(reverse('card:index'))
                 
         else:
