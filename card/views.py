@@ -4,7 +4,7 @@ from django.urls import reverse
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from .models import Category, FlashCardSet, FlashCard
-from .forms import CategoryForm, FlashCardSetForm, UserForm, UserProfileForm, Comment
+from .forms import CategoryForm, FlashCardSetForm, UserForm, UserProfileForm, Comment, FlashCardForm
 from django.utils.decorators import method_decorator
 from django.views import View
 
@@ -31,9 +31,9 @@ def show_flash_card_set(request, flash_card_set_slug):
     try:
         card_set = FlashCardSet.objects.get(slug=flash_card_set_slug)
         
-        cards = FlashCard.objects.filter(flash_card_set = card_set)
+        cards = FlashCard.objects.filter(flash_card_set=card_set)
 
-        comments = Comment.objects.filter(flash_card_set = card_set)
+        comments = Comment.objects.filter(flash_card_set=card_set)
         
         context_dict['flash_card_set'] = card_set
         context_dict['flash_cards'] = cards
@@ -123,23 +123,25 @@ def add_cardset(request, category_name_slug):
     if category is None:
         return redirect('/card/')
 
-    form = FlashCardSetForm()
+    form1 = FlashCardSetForm()
+    form2 = FlashCardForm()
 
     if request.method == 'POST':
-        form = FlashCardSetForm(request.POST)
+        form1 = FlashCardSetForm(request.POST, prefix='form1')
+        form2 = FlashCardForm(request.POST, prefix='form2')
 
-        if form.is_valid():
+        if form1.is_valid():
             if category:
-                flash_card_set = form.save(commit=False)
+                flash_card_set = form1.save(commit=False)
                 flash_card_set.user = request.user
                 flash_card_set.category = category
                 flash_card_set.save()
 
                 return redirect(reverse('card:show_category', kwargs={'category_name_slug': category_name_slug}))
         else:
-            print(form.errors)
+            print(form1.errors)
 
-    context_dict = {'form': form, 'category': category}
+    context_dict = {'form1': form1, 'form2': form2, 'category': category}
     return render(request, 'card/add_cardset.html', context=context_dict)
 
 

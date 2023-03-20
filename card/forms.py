@@ -15,10 +15,8 @@ class CategoryForm(forms.ModelForm):
         fields = ('name',)
 
 
-class FlashCardSetForm(forms.ModelForm):  # Which is PageFrom before
+class FlashCardSetForm(forms.ModelForm):
     # Foreign keys not required here
-    
-    
     name = forms.CharField(max_length=FlashCardSet.NAME_MAX_LENGTH, help_text="Please enter the title.")
     subject = forms.ChoiceField(choices = FlashCardSet.SUBJECT_CHOICES)
     likes = forms.IntegerField(widget=forms.HiddenInput(), initial=0)
@@ -34,8 +32,13 @@ class FlashCardSetForm(forms.ModelForm):  # Which is PageFrom before
 FlashCardForm should take question text and answer text
 Foreign keys not needed
 """
-class FlashCardForm(forms.ModelForm):  # Modify here
-    pass
+class FlashCardForm(forms.ModelForm):
+    question_text = forms.CharField(max_length=FlashCard.QUESTION_MAX_LENGTH, help_text="Please enter the question.")
+    answer_text = forms.CharField(max_length=FlashCard.ANSWER_MAX_LENGTH, help_text="Please enter the answer.")
+
+    class Meta:
+        model = FlashCard
+        fields = ('question_text', 'answer_text')
 
 
 """
