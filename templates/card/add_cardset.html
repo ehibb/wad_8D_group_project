@@ -2,11 +2,11 @@
 {% load staticfiles %}
 
 {% block title_block %}
-    Add a Card Set
+    Add A Card Set
 {% endblock %}
 
 {% block body_block %}
-    <h2>Add a Card Set</h2>
+    <h2>Add A Card Set</h2>
     <div>
         <form id="form1" method="post" action="/card/category/{{ category.slug }}/add_cardset/">
             {% csrf_token %}
@@ -21,6 +21,10 @@
             {{ form2 }}
             <input type="submit" name="submit" value="Add Card Set"/>
         </form>
+    </div>
+
+    <div class="help">
+        <a href="{% url 'card:help' %}">How to make your Card Set?</a>
     </div>
 {% endblock %}
 
