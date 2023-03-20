@@ -1,4 +1,17 @@
 
+.title_container {
+    margin-bottom: 25px;
+    display: flex;
+    align-items: center;
+    column-gap: 50px;
+}
+
+.authorblock {
+    display: flex;
+    align-items: center;
+    column-gap: 10px;
+}
+
 .flip > * {
     font-family: 'Helvetica';
     font-size: 32px;
@@ -74,7 +87,9 @@
     justify-content: center;
 }
 
-.slidecontrols {
+
+
+.bottomBar {
     padding:10px;
     width: 700px;
     background-color: darkcyan;
@@ -83,9 +98,10 @@
     display: flex;
     justify-content: center;
     border: solid;
+    margin-bottom: 30px;
 }
 
-.slidecontrols img {
+.bottomBar .slidecontrols img {
     width: 50px;
     height: 50px;
     border-radius: 10px;
@@ -93,9 +109,37 @@
     margin-right: 50px;
 }
 
-.slidecontrols p {
+.bottomBar p {
     display: inline;
 }
+
+.infostat {
+    display: grid;
+    grid-template-columns: auto auto;
+    align-items: center;
+    margin-right: 10px;
+}
+
+.infostat img {
+    width: 40px;
+    height: 35px;
+}
+
+.infostat p {
+    margin-left: 5px;
+    font-family: Helvetica;
+    font-weight: bold;
+}
+
+.slidecontrols {
+    display: grid;
+    grid-template-columns: auto auto auto auto auto;
+    justify-content: center;
+    align-items: center;
+}
+
+
+
 
 .forward {
     float:right;
@@ -117,6 +161,8 @@
 
 .container {
     display: grid;
+    justify-content: center;
+    align-items: center;
     row-gap: 20px;
 }
 
@@ -139,35 +185,20 @@ hr {
 }
 
 #like {
-    background-color: rgb(116, 255, 36);
+    background-color:black;
+    color:white;
 }
 
 #comment {
-    background-color:gold;
+    background-color:black;
+    color:white;
 }
 
 #edit {
-    background-color: rgb(36, 251, 255);
+    background-color: yellow;
 }
 
 #test {
     background-color: rgb(232, 62, 46);
 }
 
-.infostat {
-    display: grid;
-    grid-template-columns: auto auto;
-    align-items: center;
-}
-
-.infostat img {
-    width: 40px;
-    height: 35px;
-}
-
-.infostat p {
-    float: right;
-    margin-left: 5px;
-    font-family: Helvetica;
-    font-weight: bold;
-}

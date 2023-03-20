@@ -6,7 +6,7 @@
 {% endblock %}
 
 {% block extra_css %}
-	<link rel="stylesheet" href="{% static 'css/mycards.css' %}" type="text/css" >
+	<link rel="stylesheet" href="{% static 'css/view_categories.css' %}" type="text/css" >
     <script src="{% static "js/mycardsJS.js" %}" crossorigin="anonymous"></script>
 {% endblock %}
 
@@ -17,10 +17,10 @@
     <div class="container" >
         {% for category in categories %}
         <a href="{% url 'card:show_category' category.slug %}">
-            <div class="cardset">
+            <div class="category">
                 
                     <ul>
-                        <li class="cardsetname"> {{ category.name }} </li>
+                        <li class="categoryname"> {{ category.name }} </li>
                         <li> {{ category.views }} Views </li>
                         <li> {{ category.likes }} Likes </li>
                     </ul>

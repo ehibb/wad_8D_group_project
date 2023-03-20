@@ -38,6 +38,10 @@ def show_flash_card_set(request, flash_card_set_slug):
         context_dict['flash_card_set'] = card_set
         context_dict['flash_cards'] = cards
         context_dict['flash_card_comments'] = comments
+        if request.user == card_set.user:
+            context_dict['isCreator'] = True
+        else:
+            context_dict['isCreator'] = False
         
         if request.user.is_authenticated:
             context_dict['userLoggedIn'] = True
@@ -362,6 +366,7 @@ class ViewCategoryView(View):
         category.save()
         return HttpResponse(category.views)
     
+# For liking a Category
 class LikeCategoryView(View):
 
     @method_decorator(login_required)
