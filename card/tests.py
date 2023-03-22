@@ -123,11 +123,12 @@ Unit tests for views:
     about
     view_categories
     view_cardsets    
-    
+    comment
 """        
 class TestViews(TestCase):
     def setUp(self):
         user = User.objects.create_user(username='TestViewsUser', password='1234')
+        self.client.login(username='TestViewsUser', password='1234')
         
     def test_index(self):
         """Check status code is 200"""
@@ -144,7 +145,7 @@ class TestViews(TestCase):
         self.assertEqual(response.status_code, 200)
         
     def test_view_categories_no_categories(self):
-        """Check category queryset in context_dict is empty """
+        """Check category queryset in context_dict is empty"""
         
         response = self.client.get(reverse('card:view_categories'))
         
@@ -159,13 +160,13 @@ class TestViews(TestCase):
         self.assertIn(category, response.context['categories'])
         
     def test_view_cardsets_no_cardsets(self):
-        """Check cardset queryset in context_dict is empty """
+        """Check cardset queryset in context_dict is empty"""
         response = self.client.get(reverse('card:view_cardsets'))
         
         self.assertQuerysetEqual(response.context['flash_card_sets'], [])
     
-    def test_view_cardsets_one_cardsets(self):    
-        """Check category queryset in context_dict has one category"""
+    def test_view_cardsets_one_cardset(self):    
+        """Check cardset queryset in context_dict has one category"""
         category = Category.objects.get_or_create(name="Test")[0]
         user = authenticate(username='TestViewsUser', password='1234')
         fcs = FlashCardSet.objects.get_or_create(user=user, category=category, name="Test Flash Card Set")[0]
@@ -173,4 +174,36 @@ class TestViews(TestCase):
         
         self.assertIn(fcs, response.context['flash_card_sets'])
 
+    def test_my_cards_no_cardsets(self):
+        """Check cardset queryset in context_dict is empty"""
+        response = self.client.get(reverse('card:view_cardsets'))
+        
+        self.assertQuerysetEqual(response.context['flash_card_sets'], [])
     
+    def test_my_cards_one_cardset(self):    
+        """Check cardset queryset in context_dict has one category"""
+        category = Category.objects.get_or_create(name="Test")[0]
+        user = authenticate(username='TestViewsUser', password='1234')
+        fcs = FlashCardSet.objects.get_or_create(user=user, category=category, name="Test Flash Card Set")[0]
+        response = self.client.get(reverse('card:view_cardsets'))
+        
+        self.assertIn(fcs, response.context['flash_card_sets'])
+        
+    def test_comment_no_comments(self):
+        """Check comment queryset is empty"""
+        category = Category.objects.get_or_create(name="Test")[0]
+        user = authenticate(username='TestViewsUser', password='1234')
+        fcs = FlashCardSet.objects.get_or_create(user=user, category=category, name="Test Flash Card Set")[0]
+        response = self.client.get(reverse('card:comment', kwargs={'flash_card_set_slug':'test-flash-card-set'}))
+        
+        self.assertQuerysetEqual(response.context['comments'], [])
+        
+    def test_comment_one_comment(self):
+        """Check comment queryset is has one comment"""
+        category = Category.objects.get_or_create(name="Test")[0]
+        user = authenticate(username='TestViewsUser', password='1234')
+        fcs = FlashCardSet.objects.get_or_create(user=user, category=category, name="Test Flash Card Set")[0]
+        comment = Comment.objects.get_or_create(user=user, flash_card_set=fcs, comment_text="This is a test!")[0]
+        response = self.client.get(reverse('card:comment', kwargs={'flash_card_set_slug':'test-flash-card-set'}))
+        
+        self.assertIn(comment, response.context['comments'])

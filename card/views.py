@@ -225,7 +225,7 @@ def my_cards(request):
         context_dict['user'] = request.user
 
     except FlashCardSet.DoesNotExist:
-        print("doesnt exist mate")
+        context_dict["flash_card_sets"] = None
 
 
     return render(request, 'card/my_cards.html',context=context_dict)
