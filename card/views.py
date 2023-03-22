@@ -338,8 +338,8 @@ def edit(request, flash_card_set_slug):
             if cardset:
                 flashcard = form.save(commit=False)
                 flashcard.flash_card_set = cardset
-                cardset.number_of_questions += 1
                 flashcard.save()
+                cardset.save()
                 
                 return redirect(reverse('card:card_set',kwargs={'flash_card_set_slug':flash_card_set_slug}))
         
