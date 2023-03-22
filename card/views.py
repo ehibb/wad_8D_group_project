@@ -3,8 +3,8 @@ from django.http import HttpResponse
 from django.urls import reverse
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
-from .models import Category, FlashCardSet, FlashCard
-from .forms import CategoryForm, FlashCardSetForm, UserForm, Comment, FlashCardForm
+from .models import Category, FlashCardSet, FlashCard, Comment
+from .forms import CategoryForm, FlashCardSetForm, UserForm, CommentForm, FlashCardForm
 from django.utils.decorators import method_decorator
 from django.views import View
 
@@ -230,9 +230,39 @@ def my_cards(request):
 
     return render(request, 'card/my_cards.html',context=context_dict)
 
+@login_required
+def comment(request, flash_card_set_slug):
 
-def comment(request):
-    return render(request, 'card/comment.html')
+    context_dict = {}
+    try:
+        cardset = FlashCardSet.objects.get(slug=flash_card_set_slug)
+        cardsetcomments = Comment.objects.filter(flash_card_set=cardset)
+    except:
+        cardset = None
+        cardsetcomments =None
+
+    if cardset is None:
+        return redirect('/card/')
+    
+    context_dict["flash_card_set"] = cardset
+    context_dict["comments"] = cardsetcomments
+
+    form = CommentForm()
+
+    if request.method == "POST":
+        form = CommentForm(request.POST)
+        if form.is_valid():
+            if cardset:
+                comment = form.save(commit=False)
+                comment.user = request.user
+                comment.flash_card_set = cardset
+                comment.save()
+
+                return redirect(reverse('card:comment',kwargs={'flash_card_set_slug':flash_card_set_slug}))
+
+    context_dict["form"] = form
+
+    return render(request, 'card/comment.html', context=context_dict)
 
 
 def test(request):

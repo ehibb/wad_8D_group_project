@@ -75,7 +75,7 @@
 
                             <div class="infostat">
                                 <img src="{% static 'images/heart-icon.png' %}" alt="Like Icon">
-                                <p id="likes"> {{ flash_card_set.likes }} </p>
+                                <div><p id="likes"> {{ flash_card_set.likes }} </p></div>
                             </div>
 
                             {% if user.is_authenticated %}
@@ -94,11 +94,11 @@
 
                             <div class="infostat">
                                 <img src="{% static 'images/comment-box-icon.png' %}" alt="Comment Icon">
-                                <p id="Comments"> {{ flash_card_comments.count }} </p>
+                                <div><p id="Comments"> {{ flash_card_comments.count }} </p></div>
                             </div>
 
                             {% if user.is_authenticated %}
-                            <button id="comment" class="toolbutton"> Comment </button>
+                            <a href="{% url 'card:comment' flash_card_set.slug %}"><button id="comment" class="toolbutton"> Comment </button></a>
                             {% endif %}
 
                         </div>

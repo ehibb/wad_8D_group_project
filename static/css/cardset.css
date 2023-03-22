@@ -117,7 +117,9 @@
     display: grid;
     grid-template-columns: auto auto;
     align-items: center;
+    justify-content: center;
     margin-right: 10px;
+    text-align: center;
 }
 
 .infostat img {
@@ -129,6 +131,8 @@
     margin-left: 5px;
     font-family: Helvetica;
     font-weight: bold;
+    text-align: center;
+
 }
 
 .slidecontrols {
@@ -136,7 +140,6 @@
     grid-template-columns: auto auto auto auto auto;
     justify-content: center;
     align-items: center;
-    background-color: red;
 }
 
 

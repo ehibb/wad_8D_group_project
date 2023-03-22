@@ -1,0 +1,42 @@
+{% extends 'card/base.html' %}
+{% load staticfiles %}
+
+{% block title_block %}
+    Comments
+{% endblock %}
+
+{% block extra_css %}
+	<link rel="stylesheet" href="{% static 'css/comment.css' %}" type="text/css" >
+{% endblock %}
+
+{% block body_block %}
+    {% if flash_card_set %}
+        <h1> Comments - {{ flash_card_set.name }}</h1>
+        <div class="commentcontainer">
+            {% for comment in comments %}
+                <div class="comment">
+                    <strong>{{ comment.user }}</strong> - {{ comment.comment_text }}              
+                </div>
+            {% endfor %}
+        </div>
+ 
+        <hr>
+
+        <h3> Leave a comment! </h3> <br>
+
+        <form id="login_form" method="post" action="{% url 'card:comment' flash_card_set.slug %}">
+            {% csrf_token %}
+            {% for field in form.visible_fields %}
+                <div class="entryarea">
+                    {{ field.help_text }}
+                    {{ field }}
+                </div>
+            {% endfor %}
+            <input type="submit" name="submit" value="Create Comment">
+        </form>
+
+
+    {% else %}
+        Unknown Flash Card Set provided.
+    {% endif %}
+{% endblock %}

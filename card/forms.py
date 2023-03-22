@@ -64,7 +64,13 @@ CommentForm should simply take comment text
 Again no foreign keys needed
 """
 class CommentForm(forms.ModelForm):
-    pass
+
+    comment_text = forms.CharField(max_length=500, help_text="Please leave a comment.")
+
+    class Meta:
+        model = Comment
+        fields = ('comment_text',)
+
 
 class UserForm(forms.ModelForm):
     password = forms.CharField(widget=forms.PasswordInput())
