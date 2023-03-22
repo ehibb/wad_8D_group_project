@@ -14,26 +14,33 @@
 
     <h1>Your Flash Card Sets</h1>
 
-    <div class="container" >
-        {% for cardset in flash_card_sets %}
-        <a href="{% url 'card:card_set' cardset.slug %}">
-            <div class="cardset">
-                
-                    <ul>
-                        <li class="cardsetname"> {{ cardset.name }} </li>
-                        <li> Subject - {{ cardset.subject }} </li>
-                        {% if cardset.author.name == user.name %}
-                        <li> Author -  You </li>
-                        {% else %}
-                        <li> Author - {{ cardset.user }} </li>
-                        {% endif %}
-                        <li> {{ cardset.number_of_questions }} Questions </li>
-                        <li> {{ cardset.likes }} Likes </li>
-                    </ul>
-                
-            </div>
-        </a>  
-        {% endfor %}
+    <div class="container">
+        {% if flash_card_sets %}
+
+            {% for cardset in flash_card_sets %}
+            <a href="{% url 'card:card_set' cardset.slug %}">
+                <div class="cardset">
+                    
+                        <ul>
+                            <li class="cardsetname"> {{ cardset.name }} </li>
+                            <li> Subject - {{ cardset.subject }} </li>
+                            {% if cardset.author.name == user.name %}
+                            <li> Author -  You </li>
+                            {% else %}
+                            <li> Author - {{ cardset.user }} </li>
+                            {% endif %}
+                            <li> {{ cardset.number_of_questions }} Questions </li>
+                            <li> {{ cardset.likes }} Likes </li>
+                        </ul>
+                    
+                </div>
+            </a>  
+            {% endfor %}
+
+        {% else %}
+            You have no Flash Card Sets. Get creating!
+        {% endif %}
+
     </div>
 
 {% endblock %}

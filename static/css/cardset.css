@@ -136,6 +136,7 @@
     grid-template-columns: auto auto auto auto auto;
     justify-content: center;
     align-items: center;
+    background-color: red;
 }
 
 

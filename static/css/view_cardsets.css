@@ -9,15 +9,13 @@
 
 .cardset {
     background-color: rgb(158, 219, 240);
-    width: 300px;
-    height: 200px;
     border-radius: 15px;
     display: grid;
     align-items: center;
     border: 3px solid black;
     font-family: Arial, Helvetica, sans-serif;
     font-size: 20px;
-    padding: 0px 20px 20px 20px;
+    padding: 10px
 }
 
 .cardsetname {
@@ -26,11 +24,11 @@
 }
 
 .cardset ul {
-    list-style-type: none;    
+    list-style-type: none;  
+    padding: 0;  
 }
 
 .cardset ul li {
-    margin-bottom: 5px;
 }
 
 a {
