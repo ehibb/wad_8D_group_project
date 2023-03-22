@@ -17,7 +17,6 @@ urlpatterns = [
     path('settings/', views.settings, name='settings'),
     path('account/', views.account, name='account'),
     path('my_cards/', views.my_cards, name='my_cards'),
-    path('test/', views.test, name='test'),
     path('create/help/', views.help, name='help'),
     path('create/edit/', views.edit, name='edit'),
     path('search/', views.search, name='search'),
@@ -32,6 +31,8 @@ urlpatterns = [
     path('view_category/',views.ViewCategoryView.as_view(), name="view_category"),
     path('edit_cardset/<slug:flash_card_set_slug>/', views.edit, name="edit_cardset"),
     path('card_set/<slug:flash_card_set_slug>/comment/', views.comment, name='comment'),
+    path('card_set/<slug:flash_card_set_slug>/test/', views.test, name='test_cardset'),
+    path('tests/',views.tests,name="tests"),
 ]
 
 # Note - view_category/ is for incrementing the view count of a category,

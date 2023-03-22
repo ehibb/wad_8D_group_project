@@ -265,9 +265,43 @@ def comment(request, flash_card_set_slug):
     return render(request, 'card/comment.html', context=context_dict)
 
 
-def test(request):
-    return render(request, 'card/test.html')
+def test(request, flash_card_set_slug):
 
+    
+    context_dict = {}
+    try:
+        cardset = FlashCardSet.objects.get(slug=flash_card_set_slug)
+        flashcards = FlashCard.objects.filter(flash_card_set=cardset)
+    except:
+        cardset = None
+
+    if cardset is None:
+        return redirect('/card/')
+    
+    context_dict["flash_card_set"] = cardset
+    context_dict["flash_cards"] = flashcards
+
+
+    return render(request, 'card/test.html',context=context_dict)
+
+
+def tests(request):
+
+    context_dict = {}
+    try:
+        flash_card_sets = FlashCardSet.objects.all()
+    except:
+        flash_card_sets = None
+
+    flash_card_sets_valid = []
+    for flashcardset in flash_card_sets:
+        if flashcardset.number_of_questions > 0:
+            flash_card_sets_valid.append(flashcardset)
+
+
+    context_dict["flash_card_sets"] = flash_card_sets_valid
+
+    return render(request, 'card/tests.html',context=context_dict)
 
 def help(request):
     return render(request, 'card/help.html')

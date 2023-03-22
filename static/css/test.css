@@ -1,0 +1,44 @@
+.answerText {
+    display: none;
+}
+
+.scoreSection {
+    display: none;
+}
+
+.questionText {
+    display: block;
+    font-size: 22px;
+    font-weight: bold;
+}
+
+.yourAnswer {
+    display: block;
+}
+
+.testContainer {
+    display: grid;
+    row-gap: 30px;
+}
+
+.testQuestion {
+    width: fit-content;
+    background-color: lightcyan;
+    border-radius: 10px;
+    border: 3px solid black;
+    padding: 20px;
+}
+
+.scoreCheck {
+    width: fit-content;
+    margin-bottom: 10px;
+}
+
+.resetTest {
+    display: none;
+    width: fit-content;
+}
+
+.scoreSection p {
+    display: inline;
+}

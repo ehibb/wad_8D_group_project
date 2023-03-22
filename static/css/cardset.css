@@ -204,5 +204,8 @@ hr {
 
 #test {
     background-color: rgb(232, 62, 46);
+    width: 100px;
+    font-weight: bold;
+    border-radius: 5px;
 }
 
