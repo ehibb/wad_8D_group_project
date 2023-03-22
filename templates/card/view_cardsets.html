@@ -7,14 +7,14 @@
 
 {% block extra_css %}
 	<link rel="stylesheet" href="{% static 'css/view_cardsets.css' %}" type="text/css" >
-    <script src="{% static "js/mycardsJS.js" %}" crossorigin="anonymous"></script>
+    <script src="{% static 'js/mycardsJS.js' %}" crossorigin="anonymous"></script>
 {% endblock %}
 
 {% block body_block %}
 
     <h1>View Card Sets</h1>
 
-    <div class="container" >
+    <div class="container">
         {% for cardset in flash_card_sets %}
         <a href="{% url 'card:card_set' cardset.slug %}">
             <div class="cardset">
