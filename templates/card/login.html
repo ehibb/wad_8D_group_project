@@ -1,25 +1,35 @@
 {% extends 'card/base.html' %}
 {% load staticfiles %}
 
-
 {% block title_block %}
     Flash Card Master - Login
 {% endblock %}
 
-{% block extra_css %}
-	<link rel="stylesheet" href="{% static 'css/login.css' %}" type="text/css" >
+{% block body_block %}
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 offset-md-3">
+                <h1 class="text-center my-4">Flash Card Master</h1>
+                <div class="card">
+                    <div class="card-body">
+                        <form id="login_form" method="post" action="{% url 'card:login' %}">
+                            {% csrf_token %}
+                            <div class="form-group">
+                                <label for="{{ form.username.id_for_label }}">Username:</label>
+                                <input type="text" name="username" value="" size="50" class="form-control" id="{{ form.username.id_for_label }}" />
+                            </div>
+                            <div class="form-group">
+                                <label for="{{ form.password.id_for_label }}">Password:</label>
+                                <input type="password" name="password" value="" size="50" class="form-control" id="{{ form.password.id_for_label }}" />
+                            </div>
+                            <br>
+                            <div class="text-center">
+                                <input type="Submit" value="Login" class="btn btn-primary" />
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 {% endblock %}
-
-{% block body_block %}	
-	<h1>Flash Card Master</h1>
-    <form id="login_form" method="post" action="{% url 'card:login' %}">
-    {% csrf_token %}
-		Username: <input type="text" name="username" value="" size="50" />
-        <br />
-        Password: <input type="password" name="password" value="" size="50" />
-        <br />
-        <input type="submit" value="submit" />
-    </form>
-{% endblock %}
-
-

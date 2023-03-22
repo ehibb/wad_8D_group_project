@@ -19,7 +19,7 @@
 					{{ field.help_text }}
 					{{ field }}
 				{% endfor %}
-				<input type="submit" name="submit" value="Add Page"/>
+				<input type="submit" name="submit" value="Add Card Set"/>
 			</form>
 		</div>
 	{% else %}
@@ -34,7 +34,7 @@
 					{{ field.help_text }}
 					{{ field }}
 				{% endfor %}
-				<input type="submit" name="submit" value="Add Page"/>
+				<input type="submit" name="submit" value="Add Card Set"/>
 			</form>
 		</div>
 	{% endif %}
@@ -42,5 +42,3 @@
         <a href="{% url 'card:help' %}">How to make your Card Set?</a>
     </div>
 {% endblock %}
-
-

@@ -20,13 +20,12 @@ def get_choices():
         choices.append((str(category), str(category)))
     return choices
 
-
 class FlashCardSetForm(forms.ModelForm):  # Which is PageFrom before
     # Foreign keys not required here
     
     
     name = forms.CharField(max_length=FlashCardSet.NAME_MAX_LENGTH, help_text="Please enter the title.")
-    subject = forms.ChoiceField(choices = FlashCardSet.SUBJECT_CHOICES,required=False)
+    subject = forms.ChoiceField(choices = FlashCardSet.SUBJECT_CHOICES, required=False)
     likes = forms.IntegerField(widget=forms.HiddenInput(), initial=0)
     slug = forms.CharField(widget=forms.HiddenInput(), required=False)
 
@@ -35,15 +34,16 @@ class FlashCardSetForm(forms.ModelForm):  # Which is PageFrom before
         model = FlashCardSet
         exclude = ['User']
         fields = ('name', 'subject')
-        
+
     def __init__(self, *args, **kwargs):
         category_name_slug = kwargs.pop("category_name_slug")
-        super().__init__(*args,**kwargs)
+        super().__init__(*args, **kwargs)
         choices = get_choices()
         self.fields['subject'].choices = choices
         # Exclude Category field if we are in a category
         if category_name_slug:
             self.fields['subject'].widget = forms.HiddenInput()
+            
 """
 FlashCardForm should take question text and answer text
 Foreign keys not needed
@@ -74,7 +74,3 @@ class UserForm(forms.ModelForm):
         fields = ('username', 'email', 'password',)
 
 
-class UserProfileForm(forms.ModelForm):
-    class Meta:
-        model = UserProfile
-        fields = ('website', 'picture',)
