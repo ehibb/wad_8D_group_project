@@ -109,7 +109,10 @@ def add_category(request):
         form = CategoryForm(request.POST)
 
         if form.is_valid():
-            form.save(commit=True)
+            category_name = str(form['name'].value()).capitalize()
+            category = form.save(commit=False)
+            category.name = category_name
+            category.save()
             return redirect('/card/')
         else:
             print(form.errors)
@@ -127,10 +130,9 @@ def add_cardset(request, category_name_slug=""):
 
     if request.method == 'POST':
         form = FlashCardSetForm(request.POST, category_name_slug=category_name_slug)
-        if form.is_valid():
+        if form.is_valid():           
             flash_card_set = form.save(commit=False)
             flash_card_set.user = request.user
-
             if category:
                 flash_card_set.category = category
                 flash_card_set.subject = category.name
@@ -140,7 +142,6 @@ def add_cardset(request, category_name_slug=""):
                 flash_card_set.category = Category.objects.get(name=form['subject'].value())
                 flash_card_set.save()
                 return redirect(reverse('card:index'))
-
         else:
             print(form.errors)
 
@@ -295,7 +296,7 @@ def view_cardsets(request):
     context_dict = {}
     
     try:
-        card_sets = FlashCardSet.objects.filter()
+        card_sets = FlashCardSet.objects.all()
         context_dict["flash_card_sets"] = card_sets
         context_dict['user'] = request.user
 

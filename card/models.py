@@ -44,13 +44,9 @@ Fields:
 
 
 class FlashCardSet(models.Model):
-    SUBJECT_CHOICES = (
-    ('other', 'Other'),
-    ('math', 'Math'),
-    ('english', 'English'),
-    ('computing', 'Computing'),
-    ('physics', 'Physics'),
-)
+    SUBJECT_CHOICES = [
+    ]
+    
     NAME_MAX_LENGTH = 50
     SUBJECT_MAX_LENGTH = 20
     

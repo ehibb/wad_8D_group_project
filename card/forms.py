@@ -14,7 +14,6 @@ class CategoryForm(forms.ModelForm):
         model = Category
         fields = ('name',)
 
-
 def get_choices():
     choices = []
     for category in Category.objects.all():
@@ -44,7 +43,7 @@ class FlashCardSetForm(forms.ModelForm):  # Which is PageFrom before
         # Exclude Category field if we are in a category
         if category_name_slug:
             self.fields['subject'].widget = forms.HiddenInput()
-        
+            
 """
 FlashCardForm should take question text and answer text
 Foreign keys not needed

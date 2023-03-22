@@ -15,19 +15,21 @@
     <h1>View Categories</h1>
 
     <div class="container" >
-        {% for category in categories %}
-        <a href="{% url 'card:show_category' category.slug %}">
-            <div class="category">
-                
-                    <ul>
-                        <li class="categoryname"> {{ category.name }} </li>
-                        <li> {{ category.views }} Views </li>
-                        <li> {{ category.likes }} Likes </li>
-                    </ul>
-                
-            </div>
-        </a>  
-        {% endfor %}
+		{% if categories %}
+			{% for category in categories %}
+			<a href="{% url 'card:show_category' category.slug %}">
+				<div class="category">					
+					<ul>
+						<li class="categoryname"> {{ category.name }} </li>
+						<li> {{ category.views }} Views </li>
+						<li> {{ category.likes }} Likes </li>
+					</ul>					
+				</div>
+			</a>  
+			{% endfor %}
+		{% else %}
+			No categories present!
+		{% endif %}
     </div>
 
 {% endblock %}

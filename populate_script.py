@@ -89,7 +89,7 @@ def populate():
             add_flash_card(fcs, fc['question_text'], fc['answer_text'])
     # Print out the categories we have added.
     for c in Category.objects.all():
-        for fcs in FlashCardSet.objects.filter(subject=c.name):
+        for fcs in FlashCardSet.objects.filter(category=c):
             for fc in FlashCard.objects.filter(flash_card_set = fcs):
                 print(f'- {c.name}: {fcs} - {fc}')
     
@@ -109,6 +109,7 @@ def add_flash_card_set(user, name, category, subject='other',likes=0):
     fcs.subject = subject
     fcs.likes = likes
     fcs.save()
+    FlashCardSet.SUBJECT_CHOICES.append((subject,subject.capitalize()))
     return fcs
 
     
