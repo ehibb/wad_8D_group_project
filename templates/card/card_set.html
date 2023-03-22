@@ -35,7 +35,7 @@
                         <a href="{% url 'card:edit_cardset' flash_card_set.slug %}"><button id="edit" class="toolbutton"> Create </button></a>
                     {% endif %}
                 {% endif %}
-                <button id="test" class="toolbutton"> Test your Knowledge! </button>
+                <a href="{% url 'card:test_cardset' flash_card_set.slug %}"><button id="test" > Test your Knowledge! </button></a>
             </div>
 
         {% if flash_cards %}
@@ -79,7 +79,7 @@
                             </div>
 
                             {% if user.is_authenticated %}
-                            <button id="like" class="toolbutton" data-cardsetname="{{ flash_card_set.name }}"> Like Cardset</button>  
+                            <button id="like" class="toolbutton" data-cardsetname="{{ flash_card_set.name }}"> Like </button>  
                             {% endif %}
 
                             <div class="slidecontrols">

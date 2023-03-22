@@ -1,0 +1,20 @@
+.testlistcontainer {
+    display: grid;
+    grid-template-columns: auto auto;
+    row-gap: 20px;
+    justify-content: center;
+    column-gap: 50px;
+}
+
+.test {
+    background-color: lightcyan;
+    border: 3px solid black;
+    border-radius: 10px;
+    width: 300px;
+    padding: 20px;
+    color: black;
+}
+
+a{
+    text-decoration: none;
+}

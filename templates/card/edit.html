@@ -34,7 +34,7 @@
         </div>
 
     
-        <form id="flashcardform" method="post" action="/card/edit_cardset/{{ flash_card_set.slug }}/">
+        <form id="flashcardform" method="post" action="{% url 'card:edit_cardset' flash_card_set.slug %}">
             
             {% csrf_token %}
             {% for field in form.visible_fields %}

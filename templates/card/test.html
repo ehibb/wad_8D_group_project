@@ -1,0 +1,42 @@
+{% extends 'card/base.html' %}
+{% load staticfiles %}
+
+{% block title_block %}
+    {% if flash_card_set %}
+        {{ flash_card_set.name }}
+    {% else %}
+        Unknown Category
+    {% endif %}
+{% endblock %}
+
+{% block extra_css %}
+	<link rel="stylesheet" href="{% static 'css/test.css' %}" type="text/css" >
+    <script src="{% static "js/test.js" %}" crossorigin="anonymous"></script>
+{% endblock %}
+
+{% block body_block %}
+    {% if flash_card_set %}
+        <h1> {{ flash_card_set.name }} Test</h1>
+
+        <div class="testContainer">
+            {% for card in flash_cards %}
+                <div class="testQuestion">
+                   <div class="questionText">Question - {{ card.question_text }}</div> 
+                   <div class="yourAnswer">Your Answer <input type="test" class="testInput"></div>
+                   <div class="answerText">Correct Answer: <div class="answer">{{ card.answer_text }}</div></div>
+                </div>
+            {% endfor %} 
+            <div class="scoreSection">
+                <strong><p>Score: </p>
+                <p id="score">X</p> / <p id="total">X</p></strong>
+            </div>
+            <div class="buttonControls">
+                <button class="scoreCheck">Check your Score!</button>
+                <button class="resetTest"> Reset Test. </button>
+            </div>
+        </div>
+
+    {% else %}
+        Unknown Flash Card Set!
+    {% endif %}
+{% endblock %}

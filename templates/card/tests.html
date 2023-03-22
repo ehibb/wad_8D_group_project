@@ -1,0 +1,40 @@
+{% extends 'card/base.html' %}
+{% load staticfiles %}
+
+{% block title_block %}
+    Take a Test
+{% endblock %}
+
+{% block extra_css %}
+	<link rel="stylesheet" href="{% static 'css/tests.css' %}" type="text/css" >
+    <script src="{% static "js/test.js" %}" crossorigin="anonymous"></script>
+{% endblock %}
+
+{% block body_block %}
+
+    {% if flash_card_sets %}
+
+        <h1> Take a Test! </h1>
+        <h3> Take a test from these numerous Flash Card Sets with Questions! </h3>
+
+        <hr>
+
+        <div class="testlistcontainer">
+        {% for flash_card_set in flash_card_sets %}
+            <a href="{% url 'card:test_cardset' flash_card_set.slug %}">
+                <div class="test">
+                    <strong>{{ flash_card_set.name }}</strong>
+                    <div>{{ flash_card_set.subject }}</div>
+                    <div>{{ flash_card_set.number_of_questions }} Questions</div>
+                </div>
+            </a>
+        {% endfor %}
+        </div>
+
+
+    {% else %}
+        Unfortunately we can't find any Flash Card Sets with Questions for you.
+    {% endif %}
+
+
+{% endblock %}
