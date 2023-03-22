@@ -115,8 +115,10 @@ class CommentTestCase(TestCase):
         Comment.objects.get_or_create(user=user, flash_card_set=fcs, comment_text="This is the first comment!")[0].save()
         Comment.objects.get_or_create(user=user, flash_card_set=fcs, comment_text="This is the second comment!")[0].save()
         
-        self.assertEqual(Comment.objects.filter(user=user, flash_card_set=fcs).count(), 2)        
-        
+        self.assertEqual(Comment.objects.filter(user=user, flash_card_set=fcs).count(), 2)                    
+
+
+    
 """
 Unit tests for views:
     index
@@ -124,7 +126,8 @@ Unit tests for views:
     view_categories
     view_cardsets    
     comment
-"""        
+"""
+
 class TestViews(TestCase):
     def setUp(self):
         user = User.objects.create_user(username='TestViewsUser', password='1234')
@@ -207,3 +210,44 @@ class TestViews(TestCase):
         response = self.client.get(reverse('card:comment', kwargs={'flash_card_set_slug':'test-flash-card-set'}))
         
         self.assertIn(comment, response.context['comments'])
+        
+    def test_cardtests_no_cardsets(self):
+        """Check that, when there are no cardsets, that flash_card_sets queryset is empty"""
+        response = self.client.get(reverse('card:tests'))
+        
+        self.assertQuerysetEqual(response.context['flash_card_sets'], [])
+        
+    def test_cardtests_cardsets_with_no_questions(self):
+        """Check that flash_card_sets queryset is empty when there are only flash card sets with no questions"""
+        category = Category.objects.get_or_create(name="Test")[0]
+        user = authenticate(username='TestViewsUser', password='1234')
+        fcs = FlashCardSet.objects.get_or_create(user=user, category=category, name="Test Flash Card Set")[0]
+        response = self.client.get(reverse('card:tests'))
+        
+        self.assertQuerysetEqual(response.context['flash_card_sets'], [])
+        
+    def test_cardtests_cardsets_with_questions(self):
+        """Check that flash_card_sets queryset is not empty if there is a flash card set with a question"""
+        category = Category.objects.get_or_create(name="Test")[0]
+        user = authenticate(username='TestViewsUser', password='1234')
+        fcs = FlashCardSet.objects.get_or_create(user=user, category=category, name="Test Flash Card Set")[0]
+        question = "Is this a test?"
+        answer = "Yes!"
+        fc = FlashCard.objects.get_or_create(flash_card_set = fcs, question_text=question, answer_text=answer)[0]
+        fcs.save()
+        response = self.client.get(reverse('card:tests'))
+        
+        self.assertIn(fcs, response.context['flash_card_sets'])
+        
+    def test_cardset_test(self):
+        """Check that, if a flash card set with more than 1 question exists, we can access its test"""
+        category = Category.objects.get_or_create(name="Test")[0]
+        user = authenticate(username='TestViewsUser', password='1234')
+        fcs = FlashCardSet.objects.get_or_create(user=user, category=category, name="Test Flash Card Set")[0]
+        question = "Is this a test?"
+        answer = "Yes!"
+        fc = FlashCard.objects.get_or_create(flash_card_set = fcs, question_text=question, answer_text=answer)[0]
+        fcs.save()
+        response = self.client.get(reverse('card:test_cardset', kwargs={'flash_card_set_slug':'test-flash-card-set'}))
+        
+        self.assertEqual(response.status_code, 200)
