@@ -331,7 +331,7 @@ def view_cardsets(request):
         context_dict['user'] = request.user
 
     except FlashCardSet.DoesNotExist:
-        print("doesnt exist mate")
+        context_dict["flash_card_sets"] = None
 
     return render(request, 'card/view_cardsets.html',context=context_dict)
 
@@ -342,7 +342,7 @@ def view_categories(request):
         categories = Category.objects.all()
         context_dict["categories"] = categories
     except Category.DoesNotExist:
-        print("doesnt exist mate")
+       context_dict["categories"] = None
 
     return render(request, 'card/view_categories.html',context=context_dict)
 
