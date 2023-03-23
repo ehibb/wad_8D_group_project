@@ -45,7 +45,13 @@ python populate_script.py
 python manage.py createsuperuser
 ```
 
-8. Run the server
+8. (optional) Run unit tests on the web app
+
+```
+python manage.py test
+```
+
+9. Run the server
 
 ```
 python manage.py runserver
