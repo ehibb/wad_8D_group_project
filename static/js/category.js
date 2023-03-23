@@ -12,6 +12,7 @@ $(document).ready(function () {
         )
     })
 
+    // Functionality to increment the like counter on a category, and alter the style of a button afterwards.
     $('#like').click(function () {
         var catName;
         catName = $("#catName").attr('data-catname');

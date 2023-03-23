@@ -8,7 +8,7 @@ from .forms import CategoryForm, FlashCardSetForm, UserForm, CommentForm, FlashC
 from django.utils.decorators import method_decorator
 from django.views import View
 
-
+# The View responsible for serving the user the Home Page
 def index(request):
 
     category_list = Category.objects.order_by('-views')[:5]
@@ -22,9 +22,12 @@ def index(request):
     return render(request, 'card/index.html', context=context_dict)
 
 
+# The View Responsible for serving the user with the About Page
 def about(request):
     return render(request, 'card/about.html')
 
+
+# The View responsible for displaying a Flash Card Set along with information about said set
 def show_flash_card_set(request, flash_card_set_slug):
     context_dict = {}
     
@@ -52,6 +55,8 @@ def show_flash_card_set(request, flash_card_set_slug):
         
     return render(request, 'card/card_set.html', context=context_dict)
 
+
+# The View Functionality responsible for incrementing a Flash Card Set's likes.
 class LikeCardSetView(View):
 
     @method_decorator(login_required)
@@ -69,6 +74,7 @@ class LikeCardSetView(View):
         return HttpResponse(cardset.likes)
     
 
+# The View responsible for displaying info about a Category
 def show_category(request, category_name_slug):
     # Create a context dictionary which we can pass
     # to the template rendering engine.
@@ -101,6 +107,8 @@ def show_category(request, category_name_slug):
     return render(request, 'card/category.html', context=context_dict)
 
 
+# The View responsible for the creation of new Categories
+@login_required
 def add_category(request):
     form = CategoryForm()
 
@@ -120,6 +128,7 @@ def add_category(request):
     return render(request, 'card/add_category.html', {'form': form})
 
 
+# The View responsible for the creation of new Card Sets
 def add_cardset(request, category_name_slug=""):
     try:
         category = Category.objects.get(slug=category_name_slug)
@@ -148,6 +157,8 @@ def add_cardset(request, category_name_slug=""):
     context_dict = {'form': form, 'category': category}
     return render(request, 'card/add_cardset.html', context=context_dict)
 
+
+# The View responsible for registering users to the site
 def register(request):
     registered = False
 
@@ -172,6 +183,7 @@ def register(request):
                            'registered': registered})
 
 
+# The View responsible for allowing registered users to sign into the site
 def user_login(request):
     if request.method == 'POST':
         username = request.POST.get('username')
@@ -192,11 +204,6 @@ def user_login(request):
         return render(request, 'card/login.html')
 
 
-@login_required
-def restricted(request):
-    return render(request, 'card/restricted.html')
-
-
 # Use the login_required() decorator to ensure only those logged in can
 # access the view.
 @login_required
@@ -206,14 +213,7 @@ def user_logout(request):
     return redirect(reverse('card:index'))
 
 
-def settings(request):
-    return render(request, 'card/settings.html')
-
-
-def account(request):
-    return render(request, 'card/account.html')
-
-
+# The View responsible for displaying all of a Users created Flash Card Sets
 @login_required
 def my_cards(request):
 
@@ -230,6 +230,8 @@ def my_cards(request):
 
     return render(request, 'card/my_cards.html',context=context_dict)
 
+
+# The View repsonsible for displaying comments, as well as allowing users to upload a comment to a Card Set
 @login_required
 def comment(request, flash_card_set_slug):
 
@@ -265,6 +267,7 @@ def comment(request, flash_card_set_slug):
     return render(request, 'card/comment.html', context=context_dict)
 
 
+# The View responsible for allowing users to take a test on a Flash Card Set
 def test(request, flash_card_set_slug):
 
     
@@ -285,6 +288,7 @@ def test(request, flash_card_set_slug):
     return render(request, 'card/test.html',context=context_dict)
 
 
+# The View responsible for displaying a page of Flash Card Set's that contain questions for a user.
 def tests(request):
 
     context_dict = {}
@@ -303,10 +307,13 @@ def tests(request):
 
     return render(request, 'card/tests.html',context=context_dict)
 
+
+# The View responsible with displaying the help page to the user
 def help(request):
     return render(request, 'card/help.html')
 
 
+# The View responsible for allowing a user to edit their Flash Card Sets
 def edit(request, flash_card_set_slug):
     context_dict = {}
 
@@ -351,11 +358,14 @@ def edit(request, flash_card_set_slug):
     return render(request, 'card/edit.html', context=context_dict)
 
 
+# The View responsible for allowing users to search from existing Categories/Card Sets
 def search(request):
     context_dict = {}
     context_dict["categories"] = None
     return render(request, 'card/search.html',context=context_dict)
 
+
+# The View displaying a list of all Card Sets
 def view_cardsets(request):
     context_dict = {}
     
@@ -369,6 +379,8 @@ def view_cardsets(request):
 
     return render(request, 'card/view_cardsets.html',context=context_dict)
 
+
+# The View displaying a list of all Categories
 def view_categories(request):
     context_dict = {}
 
@@ -382,7 +394,7 @@ def view_categories(request):
 
 
 
-# Function and Class used in the Search page to deal with searches based on category
+# Function and Class used in the Search page to deal with searches based on category.
 def get_category_list(max_results=0, starts_with=''):
     category_list = []
     if starts_with:
@@ -410,9 +422,7 @@ class CategorySuggestionView(View):
         return render(request, 'card/categories.html', {"categories":category_list})
     
 
-
-
-## Function and Class used in the Search page to deal with searches based on card set
+# Function and Class used in the Search page to deal with searches based on card set.
 def get_cardset_list(max_results=0, starts_with=''):
     cardset_list = []
     if starts_with:
@@ -436,11 +446,10 @@ class CardSetSuggestionView(View):
         if len(cardset_list) == 0:
             cardset_list = FlashCardSet.objects.order_by('-likes')
 
-
         return render(request, 'card/cardsets.html', {"cardsets":cardset_list})
 
 
-# Not to be confused with show_category, this is to incremment the view count on a category
+# Not to be confused with show_category, this View is to incremment the view count on a category
 class ViewCategoryView(View):
 
     def get(self, request):
@@ -456,7 +465,8 @@ class ViewCategoryView(View):
         category.save()
         return HttpResponse(category.views)
     
-# For liking a Category
+
+# View For liking a Category
 class LikeCategoryView(View):
 
     @method_decorator(login_required)

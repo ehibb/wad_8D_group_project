@@ -31,6 +31,8 @@ $(document).ready(function() {
         $(this).toggleClass('classShadow');
     });
 
+
+    
     // When the card is pressed and the animation toggles, this code removes the shadow whist its flipping and adds it back half a second later
     $(".flip").click(function () {
 
@@ -40,6 +42,7 @@ $(document).ready(function() {
             $(that).addClass('classShadow')
         }, 440)
     });
+
 
     // Triggers the flip animation when you click on the Flash Card
     $(function(){
@@ -59,6 +62,7 @@ $(document).ready(function() {
     {
         $(this).toggleClass('classShadow');
     });
+
 
     // Code that shows the next Card when Forward/Backward button is hit. Also alters current Card number.
     $('.forward').click(function() {
